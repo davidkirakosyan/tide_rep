@@ -20,29 +20,29 @@ def calculate_force(body, objects):
         body.Fy += gravitational_constant * body.m * obj.m * (obj.y - body.y) / (r**3)
 
 
-def collisers(body, objects):
-    '''
+def colliders(body, objects):
+    """
     :return: list of objects which are colliding with the body
-    '''
+    """
     colliders = []
     for obj in objects:
         if (obj.x - body.x)**2 + (obj.y - body.y)**2 <= (obj.R + body.R)**2:
-            colliders += [obj]
+            colliders.append(obj)
     
     return colliders
 
 
 def collisions(body, objects):
-    '''
+    """
     Recalculates velocity of the body after collisions with objects
 
     :return: None
-    '''
+    """
     M = body.m
     V = np.array([body.Vx, body.Vy])
     X, Y = body.X, body.Y
 
-    for obj in coliders(body, objects):
+    for obj in colliders(body, objects):
         m = obj.m
         v = np.array([body.vx, body.vy])
         x, y = obj.x, obj.y
