@@ -5,14 +5,14 @@ class PhysicalBall:
     """
     Class that describes solid ball
     """
-    def __init__(self, m, x, y, Vx, Vy, R, drag_reasiness = False):
+    def __init__(self, m, x, y, Vx, Vy, R, color, drag_reasiness = False):
         self.m = m
         self.x = x
         self.y = y
         self.Vx = Vx
         self.Vy = Vy
         self.R = R
-        self.color = None
+        self.color = color
         self.image = None
         self.Fx = self.Fy = 0
         self.drag_readiness = False
