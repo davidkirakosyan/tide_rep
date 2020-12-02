@@ -58,5 +58,5 @@ class Window:
 
 
 if __name__ == '__main__':
-    window = Window(900, 700)
+    window = Window(600, 600)
     window.run()
