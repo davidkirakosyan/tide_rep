@@ -26,6 +26,8 @@ def colliders(body, objects):
     """
     colliders = []
     for obj in objects:
+        if body == obj:
+            continue  # doesn't affect on itself
         if (obj.x - body.x)**2 + (obj.y - body.y)**2 <= (obj.R + body.R)**2:
             colliders.append(obj)
     
@@ -40,15 +42,14 @@ def collisions(body, objects):
     """
     M = body.m
     V = np.array([body.Vx, body.Vy])
-    X, Y = body.X, body.Y
+    X, Y = body.x, body.y
 
     for obj in colliders(body, objects):
         m = obj.m
         v = np.array([body.vx, body.vy])
         x, y = obj.x, obj.y
 
-        #FIXME
-        # in case objects intersect because of not enough small dt, we pull the body out of the object before collision calculations
+        #FIXME (in case objects intersect because of not enough small dt, we pull the body out of the object before collision calculations)
 
         Vc = (M*V + m*v) / (M + m)  # velocity of center of mass
         P1 = m * M / (M + m) * (V - v)  # momentum of the body in the frame of reference of the center of mass before collision

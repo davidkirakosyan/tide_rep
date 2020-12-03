@@ -1,3 +1,4 @@
+from main import *
 from physics import *
 
 
@@ -36,8 +37,11 @@ class PhysicalBall:
 
         collisions(self, objects)
 
-               
-        
-                
+    def create_image(self, canv):
+    '''
+    creates image for PhysicalBall objects
+    '''
+        R = self.R
+        self.image = canv.create_oval([0, 0], [2 * R, 2 * R], fill=self.color)
             
 
