@@ -24,6 +24,7 @@ class Window:
         self._set_controllers()
 
         self.space.bind('<ButtonPress>', self.zoom)
+        self.root.bind('<Configure>', self.resize)
         self.root.mainloop()
 
     def _set_controllers(self):
@@ -38,6 +39,8 @@ class Window:
         earth_dens, moon_dens = tk.DoubleVar(), tk.DoubleVar()
         earth_dens.set(1000)  # FIXME: set initial densities
         moon_dens.set(1000)
+        e_dens_label = tk.Label(self.frame, text='Earth Density', wraplength=(self.width / 5))
+        m_dens_label = tk.Label(self.frame, text='Moon Density', wraplength=(self.width / 5))
         self.earth_density = tk.Scale(
             self.frame,
             variable=earth_dens,
@@ -46,7 +49,6 @@ class Window:
             to=10000,
             resolution=100,
             length=self.width * 0.15,
-            label='Earth Density',
         )
         self.moon_density = tk.Scale(
             self.frame,
@@ -56,16 +58,17 @@ class Window:
             to=10000,
             resolution=100,
             length=self.width * 0.15,
-            label='Moon Density',
         )
+        e_dens_label.pack(side=tk.TOP)
         self.earth_density.pack(side=tk.TOP)
+        m_dens_label.pack(side=tk.TOP)
         self.moon_density.pack(side=tk.TOP)
 
         earth_vel, moon_vel = tk.DoubleVar(), tk.DoubleVar()  # in km/s
         earth_vel.set(1)  # FIXME: set initial velocities.
         moon_vel.set(1)
-        e_vel_label = tk.Label(self.frame, text='Earth Full Velocity in km/s', wraplength=self.width / 10)
-        m_vel_label = tk.Label(self.frame, text='Moon Full Velocity in km/s', wraplength=self.width / 10)
+        e_vel_label = tk.Label(self.frame, text='Earth Velocity in km/s', wraplength=(self.width / 5))
+        m_vel_label = tk.Label(self.frame, text='Moon Velocity in km/s', wraplength=(self.width / 5))
         self.earth_velocity = tk.Scale(
             self.frame,
             variable=earth_vel,
@@ -145,6 +148,22 @@ class Window:
         for body in self.celestial_bodies:
             x, y, R = self.scale_coordinates(body)
             self.space.coords(body.image, x - R, y - R, x + R, y + R)
+
+    def resize(self, event):
+        """
+        Resizes all elements when window size is changed.
+
+        :return:
+        """
+        init_width, init_height = self.width, self.height
+        width_scale, height_scale = self.root.winfo_width() / init_width, self.root.winfo_height() / init_height
+        self.width = self.root.winfo_width()
+        self.height = self.root.winfo_height()
+        self.space.config(width=(0.85 * self.width), height=self.height)
+        self.space.scale("all", 0 / 2, 0 / 2, width_scale, height_scale)
+
+        self.frame.config(width=(0.15 * self.width), height=self.height)
+
 
 
 if __name__ == '__main__':
