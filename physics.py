@@ -47,7 +47,7 @@ def collisions(body, objects):
     V_new = V
     for obj in colliders(body, objects):
         m = obj.m
-        v = np.array([body.vx, body.vy])
+        v = np.array([obj.Vx, obj.Vy])
         x, y = obj.x, obj.y
 
         #FIXME (in case objects intersect because of not enough small dt, we pull the body out of the object before collision calculations)

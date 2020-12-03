@@ -192,7 +192,7 @@ class Window:
         """
         new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100 + self.width / 2
         new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100 + self.height / 2
-        new_R = cel_obj.R * self.zoom_percent / 100
+        new_R = cel_obj.R * self.scale_factor * self.zoom_percent / 100
         return new_x, new_y, new_R
 
     def change_position(self):
