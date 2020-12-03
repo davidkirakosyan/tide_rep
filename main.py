@@ -118,9 +118,11 @@ class Window:
         Grabs an object via clicking on it by mouse
         """
         for body in self.celestial_bodies:
-            dist_event_obj = ((event.x - body.x) ** 2 + (event.y - body.y) ** 2) ** 0.5
-            if dist_event_obj <= body.R:
+            x, y, R = self.scale_coordinates(body)
+            dist_event_obj = ((event.x - x) ** 2 + (event.y - y) ** 2) ** 0.5
+            if dist_event_obj <= R:
                 body.drag_readiness = True
+                
 
     def drag_finish(self, event):
         """
@@ -129,8 +131,12 @@ class Window:
         for body in self.celestial_bodies:
             if body.drag_readiness:
                 body.drag_readiness = False
-                body.x = event.x
-                body.y = event.y
+                x = (event.x - self.width / 2) * 100 / (self.scale_factor * self.zoom_percent)#coords rescaling
+                y = (event.y - self.height / 2) * 100 / (self.scale_factor * self.zoom_percent)
+                body.x = x
+                body.y = y
+                x, y, R = self.scale_coordinates(body)
+                self.space.coords(body.image, x - R, y - R, x + R, y + R)
 
     def drag(self, event):
         """
@@ -139,8 +145,12 @@ class Window:
         """
         for body in self.celestial_bodies:
             if body.drag_readiness:
-                body.x = event.x
-                body.y = event.y
+                x = (event.x - self.width / 2) * 100 / (self.scale_factor * self.zoom_percent)#coords rescaling
+                y = (event.y - self.height / 2) * 100 / (self.scale_factor * self.zoom_percent)
+                body.x = x
+                body.y = y
+                x, y, R = self.scale_coordinates(body)
+                self.space.coords(body.image, x - R, y - R, x + R, y + R)
 
     def run(self):
         """
