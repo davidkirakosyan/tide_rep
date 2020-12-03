@@ -47,59 +47,64 @@ class Window:
         save_file.pack(pady=10, side=tk.BOTTOM)
         load_file.pack(pady=10, side=tk.BOTTOM)
 
-        earth_dens, moon_dens = tk.DoubleVar(), tk.DoubleVar()
-        earth_dens.set(1000)  # FIXME: set initial densities
-        moon_dens.set(1000)
-        e_dens_label = tk.Label(self.frame, text='Earth Density', wraplength=(self.width / 5))
-        m_dens_label = tk.Label(self.frame, text='Moon Density', wraplength=(self.width / 5))
-        self.earth_density = tk.Scale(
-            self.frame,
-            variable=earth_dens,
-            orient=tk.HORIZONTAL,
-            from_=1000,
-            to=10000,
-            resolution=100,
-            length=self.width * 0.15,
-        )
-        self.moon_density = tk.Scale(
-            self.frame,
-            variable=moon_dens,
-            orient=tk.HORIZONTAL,
-            from_=1000,
-            to=10000,
-            resolution=100,
-            length=self.width * 0.15,
-        )
-        e_dens_label.pack(pady=10)
-        self.earth_density.pack()
-        m_dens_label.pack(pady=10)
-        self.moon_density.pack()
+        mass_labels = [
+            tk.Label(self.frame, text='Earth Mass in 10^22', wraplength=(self.width / 5)),
+            tk.Label(self.frame, text='Moon Mass in 10^22', wraplength=(self.width / 5))
+        ]
+        self.mass_sliders = [
+            tk.Scale(
+                self.frame,
+                variable=tk.DoubleVar(),
+                orient=tk.HORIZONTAL,
+                from_=1,
+                to=1000,
+                resolution=10,
+                length=self.width * 0.15,
+                command=lambda value: self.change_mass(value, 0),
+            ),
+            tk.Scale(
+                self.frame,
+                variable=tk.DoubleVar(),
+                orient=tk.HORIZONTAL,
+                from_=1,
+                to=1000,
+                resolution=10,
+                length=self.width * 0.15,
+                command=lambda value: self.change_mass(value, 1),
+            )
+        ]
+        for label, slider in zip(self.mass_sliders, mass_labels):
+            label.pack(pady=10)
+            slider.pack()
 
-        earth_vel, moon_vel = tk.DoubleVar(), tk.DoubleVar()  # in km/s
-        earth_vel.set(1)  # FIXME: set initial velocities.
-        moon_vel.set(1)
-        e_vel_label = tk.Label(self.frame, text='Earth Velocity in km/s', wraplength=(self.width / 5))
-        m_vel_label = tk.Label(self.frame, text='Moon Velocity in km/s', wraplength=(self.width / 5))
-        self.earth_velocity = tk.Scale(
-            self.frame,
-            variable=earth_vel,
-            orient=tk.HORIZONTAL,
-            from_=1,
-            to=30,
-            length=self.width * 0.15,
-        )
-        self.moon_velocity = tk.Scale(
-            self.frame,
-            variable=moon_vel,
-            orient=tk.HORIZONTAL,
-            from_=1,
-            to=17,
-            length=self.width * 0.15,
-        )
-        e_vel_label.pack(pady=10)
-        self.earth_velocity.pack()
-        m_vel_label.pack(pady=10)
-        self.moon_velocity.pack()
+        vel_labels = [
+            tk.Label(self.frame, text='Earth Velocity in km/s', wraplength=(self.width / 5)),
+            tk.Label(self.frame, text='Moon Velocity in km/s', wraplength=(self.width / 5)),
+        ]
+        self.velocity_sliders = [
+            tk.Scale(
+                self.frame,
+                variable=tk.DoubleVar(),
+                orient=tk.HORIZONTAL,
+                from_=1,
+                to=30,
+                length=self.width * 0.15,
+                command=lambda value: self.change_velocity(value, 0),
+            ),
+            tk.Scale(
+                self.frame,
+                variable=tk.DoubleVar(),
+                orient=tk.HORIZONTAL,
+                from_=1,
+                to=30,
+                length=self.width * 0.15,
+                command=lambda value: self.change_velocity(value, 1),
+            )
+        ]
+
+        for label, slider in zip(self.velocity_sliders, vel_labels):
+            label.pack(pady=10)
+            slider.pack()
 
     def _start_running(self):
         """
@@ -122,7 +127,6 @@ class Window:
             dist_event_obj = ((event.x - x) ** 2 + (event.y - y) ** 2) ** 0.5
             if dist_event_obj <= R:
                 body.drag_readiness = True
-                
 
     def drag_finish(self, event):
         """
@@ -131,7 +135,7 @@ class Window:
         for body in self.celestial_bodies:
             if body.drag_readiness:
                 body.drag_readiness = False
-                x = (event.x - self.width / 2) * 100 / (self.scale_factor * self.zoom_percent)#coords rescaling
+                x = (event.x - self.width / 2) * 100 / (self.scale_factor * self.zoom_percent)  # coords rescaling
                 y = (event.y - self.height / 2) * 100 / (self.scale_factor * self.zoom_percent)
                 body.x = x
                 body.y = y
@@ -145,7 +149,7 @@ class Window:
         """
         for body in self.celestial_bodies:
             if body.drag_readiness:
-                x = (event.x - self.width / 2) * 100 / (self.scale_factor * self.zoom_percent)#coords rescaling
+                x = (event.x - self.width / 2) * 100 / (self.scale_factor * self.zoom_percent)  # coords rescaling
                 y = (event.y - self.height / 2) * 100 / (self.scale_factor * self.zoom_percent)
                 body.x = x
                 body.y = y
@@ -220,14 +224,17 @@ class Window:
 
     def open_file(self):
         """
-        Opens a file and reads planets' datas.
+        Opens a file and reads planets' data.
 
         :return:None
         """
         file_name = askopenfile(filetypes=(("Text file", ".txt"),)).name
         self.celestial_bodies.extend(read_space_objects_data_from_file(file_name))
-        for body in self.celestial_bodies:
+        for i, body in enumerate(self.celestial_bodies):
             body.create_image(self.space)
+            self.mass_sliders[i].set(body.m / 1E22)
+            V = (body.Vx ** 2 + body.Vy ** 2) ** 0.5
+            self.velocity_sliders[i].set(V / 1000)
 
         max_x_or_y = max(
             max([(body.x, body.y) for body in self.celestial_bodies],
@@ -248,6 +255,32 @@ class Window:
 
         file_name = asksaveasfile(filetypes=(("Text file", ".txt"),)).name
         write_space_objects_data_to_file(file_name, self.celestial_bodies)
+
+    def change_mass(self, value, i):
+        """
+        Changes body's mass when slider is moved.
+
+        :param value: slider's current value
+        :param i: index of body
+        :return: None
+        """
+        if len(self.celestial_bodies) > 0:
+            self.celestial_bodies[i].m = float(value) * 1E22
+
+    def change_velocity(self, value, i):
+        """
+        Changes body's full velocity when slider is moved.
+
+        :param value: slider's current value
+        :param i: index of body
+        :return: None
+        """
+        if len(self.celestial_bodies) > 0:
+            Vx, Vy = self.celestial_bodies[i].Vx, self.celestial_bodies[i].Vy
+            V_init = (Vx ** 2 + Vy ** 2) ** 0.5
+            V_new = float(value) * 1000
+            self.celestial_bodies[i].Vx *= V_new / V_init
+            self.celestial_bodies[i].Vy *= V_new / V_init
 
 
 if __name__ == '__main__':
