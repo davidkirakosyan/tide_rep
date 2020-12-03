@@ -28,6 +28,9 @@ class Window:
 
         self.space.bind('<ButtonPress>', self.zoom)
         self.root.bind('<Configure>', self.resize)
+        self.space.bind('<Button-2>', drag_start (self.celestial_bodies))
+        self.space.bind('<B2-Motion>', drag (self.celestial_bodies))
+        self.space.bind('<ButtonRelease-2>', drag_finish (self.celestial_bodies))
         self.root.mainloop()
 
     def _set_controllers(self):
@@ -109,6 +112,35 @@ class Window:
         self.start_button['command'] = self._stop_running
 
         self.run()
+
+    def drag_start (self, event):
+        """
+        Grabs an object via clicking on it by mouse
+        """
+        for body in self.celestial_bodies:
+            dist_event_obj = ((event.x - body.x)**2 + (event.y - body.y)**2)**0.5
+            if dist_event_obj <= body.R:
+                body.drag_readiness = True
+
+    def drag_finish (self, event):
+        """
+        Releases an object after dragging it by mouse
+        """
+        for body in self.celestial_bodies:
+            if body.drag_readiness:
+                body.drag_readiness = False
+                body.x = event.x
+                body.y = event.y
+
+    def drag (self, event):
+        """
+        moves an object via to dragging it by mouse
+        :return: None
+        """
+        for body in self.celestial_bodies:
+            if body.drag_readiness:
+               body.x = event.x
+               body.y = event.y
 
     def run(self):
         """

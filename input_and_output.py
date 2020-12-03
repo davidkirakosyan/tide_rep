@@ -42,10 +42,12 @@ def parse_space_object_parameters(line, obj):
         else:
             value = word
         res += [value]
+        
     obj.m, obj.x, obj.y, obj.Vx, obj.Vy, obj.R, obj.color = res
+    obj.drag_readiness = False
 
 
-def write_space_objects_data_to_file(output_filename, space_objects):
+def write_space_objects_data_to_file(output_filename, bjects):
     """Сохраняет данные о космических объектах в файл.
     Строки должны иметь следующий формат:
     Star <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
@@ -55,7 +57,7 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     **space_objects** — список объектов планет и звёзд
     """
     with open(output_filename, 'w') as out_file:
-        for obj in space_objects:
+        for obj in objects:
             object_data_string = ''
             features = [obj.m, obj.x, obj.y, obj.Vx, obj.Vy,
                         obj.R, obj.color, obj.drag_readiness]

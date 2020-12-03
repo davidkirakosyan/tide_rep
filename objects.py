@@ -5,7 +5,8 @@ class PhysicalBall:
     """
     Class that describes solid ball
     """
-    def __init__(self, m, x, y, Vx, Vy, R, color, drag_reasiness = False):
+    def __init__(self, m = 0, x = 0, y = 0, Vx = 0, Vy = 0,
+                 R = 0, color = 'white', drag_readiness = False):
         self.m = m
         self.x = x
         self.y = y
@@ -15,7 +16,7 @@ class PhysicalBall:
         self.color = color
         self.image = None
         self.Fx = self.Fy = 0
-        self.drag_readiness = False
+        self.drag_readiness = drag_readiness
 
     def move(self, objects, dt):
         """
@@ -35,33 +36,6 @@ class PhysicalBall:
 
         collisions(self, objects)
 
-    def drag_start (objects, event):
-        """
-        Grabs an object via clicking on it by mouse
-        """
-        for self in objects:
-            dist_event_obj = ((event.x - self.x)**2 + (event.y - self.y)**2)**0.5
-            if dist_event_obj <= self.R:
-                self.drag_readiness = True
-
-    def drag_finish (self, event):
-        """
-        Releases an object after dragging it by mouse
-        """
-        self.drag_readiness = False
-        self.x = event.x
-        self.y = event.y
-
-    def drag (objects, event):
-        """
-        moves an object via to dragging it by mouse
-
-        :return: None
-        """
-        for self in objects:
-            if self.drag_readiness:
-               self.x = event.x
-               self.y = event.y
                
         
                 
