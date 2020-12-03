@@ -31,23 +31,20 @@ def parse_space_object_parameters(line, obj):
     **line** — строка с описание звезды.
     **space_object** — объект.ф
     """
-    x = line.split()
+    x = line.split()[1:]  # skipping first element
     res = []
 
     for word in x:
-        if word.find('E') != -1:
-            value = float(word[: word.find('E')]) * 10 ** float(word[word.find('E') + 1:])
-        elif word.isdigit():
-            value = float(word)
-        else:
+        if word.isalpha():
             value = word
-        res += [value]
-        
-    obj.m, obj.x, obj.y, obj.Vx, obj.Vy, obj.R, obj.color = res
-    obj.drag_readiness = False
+        else:
+            value = float(word)
+        res.append(value)
+
+    obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy = res
 
 
-def write_space_objects_data_to_file(output_filename, bjects):
+def write_space_objects_data_to_file(output_filename, objects):
     """Сохраняет данные о космических объектах в файл.
     Строки должны иметь следующий формат:
     Star <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>

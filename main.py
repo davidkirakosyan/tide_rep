@@ -10,7 +10,7 @@ class Window:
         self.height = height
         self.zoom_percent = zoom_percent
         self.is_running = False
-        self.scale_factor = self.width * 0.4 * 2.6e-9
+        self.scale_factor = 1.0
 
         self.root = tk.Tk()
         self.root.title('Tidal Effects')
@@ -148,7 +148,7 @@ class Window:
 
         :return: None
         """
-        pass
+        self.change_position()
 
     def _stop_running(self):
         """
@@ -176,7 +176,7 @@ class Window:
         """
         new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100
         new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100
-        new_R = cel_obj.R * self.scale_factor * self.zoom_percent / 100
+        new_R = cel_obj.R * self.zoom_percent / 100
         return new_x, new_y, new_R
 
     def change_position(self):
@@ -185,7 +185,9 @@ class Window:
 
         :return: None
         """
+        dt = 3600
         for body in self.celestial_bodies:
+            body.move(self.celestial_bodies, dt)
             x, y, R = self.scale_coordinates(body)
             self.space.coords(body.image, x - R, y - R, x + R, y + R)
 
@@ -210,8 +212,13 @@ class Window:
 
         :return:None
         """
-        file_address = askopenfile(filetypes=(("Text file", ".txt"),))
-        # TODO: open file and get data
+        file_name = askopenfile(filetypes=(("Text file", ".txt"),)).name
+        self.celestial_bodies.extend(read_space_objects_data_from_file(file_name))
+        max_x_or_y = max(
+            max([(body.x, body.y) for body in self.celestial_bodies],
+                key=lambda c: (c[0] ** 2 + c[1] ** 2))
+        )
+        self.scale_factor = 0.8 * (self.width * 0.8) / max_x_or_y  # 0.4 canvas width / max coordinate
 
         self._start_running()
 
@@ -224,8 +231,8 @@ class Window:
         """
         self._stop_running()
 
-        file_name = asksaveasfile(filetypes=(("Text file", ".txt"),))
-        write_space_objects_data_to_file(file_name.name, self.celestial_bodies)
+        file_name = asksaveasfile(filetypes=(("Text file", ".txt"),)).name
+        write_space_objects_data_to_file(file_name, self.celestial_bodies)
 
 
 if __name__ == '__main__':
