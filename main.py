@@ -174,8 +174,8 @@ class Window:
         :param cel_obj: celestial object
         :return: (new_x, new_y)
         """
-        new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100
-        new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100
+        new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100 + self.width / 2
+        new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100 + self.height / 2
         new_R = cel_obj.R * self.zoom_percent / 100
         return new_x, new_y, new_R
 
@@ -189,6 +189,7 @@ class Window:
         for body in self.celestial_bodies:
             body.move(self.celestial_bodies, dt)
             x, y, R = self.scale_coordinates(body)
+            print(body.image)
             self.space.coords(body.image, x - R, y - R, x + R, y + R)
 
     def resize(self, event):
@@ -214,6 +215,9 @@ class Window:
         """
         file_name = askopenfile(filetypes=(("Text file", ".txt"),)).name
         self.celestial_bodies.extend(read_space_objects_data_from_file(file_name))
+        for body in self.celestial_bodies:
+            body.create_image(self.space)
+
         max_x_or_y = max(
             max([(body.x, body.y) for body in self.celestial_bodies],
                 key=lambda c: (c[0] ** 2 + c[1] ** 2))

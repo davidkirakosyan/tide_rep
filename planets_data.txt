@@ -1,7 +1,7 @@
 # Earth-Moon System
 
 # Earth
-Earth 100 aquamarine 5.974E24 -4.671e6 0 0 1.245e1
+Earth 30 aquamarine 5.974E24 -4.671e6 0 0 1.245e1
 
 # Moon
-Moon 27 gray 7.348e22 +3.798e9 0 0 -1.012e3
+Moon 8 gray 7.348e22 +3.798e9 0 0 -1.012e3

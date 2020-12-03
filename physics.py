@@ -44,6 +44,7 @@ def collisions(body, objects):
     V = np.array([body.Vx, body.Vy])
     X, Y = body.x, body.y
 
+    V_new = V
     for obj in colliders(body, objects):
         m = obj.m
         v = np.array([body.vx, body.vy])
