@@ -22,7 +22,7 @@ class Window:
         self.frame = tk.Frame(self.root, width=(0.15 * self.width))
         self.frame.pack(fill=tk.X, side=tk.LEFT, expand=1)
 
-        self.celestial_bodies = []  # TODO: add all elements
+        self.celestial_bodies = []
 
         self._set_controllers()
 

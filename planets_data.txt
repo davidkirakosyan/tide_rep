@@ -4,4 +4,4 @@
 Earth 30 aquamarine 5.974E24 -4.671E6 0 0 1.245E1
 
 # Moon
-Moon 8 gray 7.348E22 +3.798E9 0 0 -1.012E3
+Moon 8 gray 7.348E22 +3.798E8 0 0 -1.012E3
