@@ -1,4 +1,7 @@
 import tkinter as tk
+from tkinter.filedialog import askopenfile, asksaveasfile
+
+from input_and_output import *
 
 
 class Window:
@@ -34,7 +37,12 @@ class Window:
         :return:
         """
         self.start_button = tk.Button(self.frame, text="Start", command=self._start_running)
-        self.start_button.pack(side=tk.TOP)
+        self.start_button.pack(pady=10)
+
+        load_file = tk.Button(self.frame, text="Open file ...", command=self.open_file)
+        save_file = tk.Button(self.frame, text="Save to file ...", command=self.save_to_file)
+        save_file.pack(pady=10, side=tk.BOTTOM)
+        load_file.pack(pady=10, side=tk.BOTTOM)
 
         earth_dens, moon_dens = tk.DoubleVar(), tk.DoubleVar()
         earth_dens.set(1000)  # FIXME: set initial densities
@@ -59,10 +67,10 @@ class Window:
             resolution=100,
             length=self.width * 0.15,
         )
-        e_dens_label.pack(side=tk.TOP)
-        self.earth_density.pack(side=tk.TOP)
-        m_dens_label.pack(side=tk.TOP)
-        self.moon_density.pack(side=tk.TOP)
+        e_dens_label.pack(pady=10)
+        self.earth_density.pack()
+        m_dens_label.pack(pady=10)
+        self.moon_density.pack()
 
         earth_vel, moon_vel = tk.DoubleVar(), tk.DoubleVar()  # in km/s
         earth_vel.set(1)  # FIXME: set initial velocities.
@@ -85,10 +93,10 @@ class Window:
             to=17,
             length=self.width * 0.15,
         )
-        e_vel_label.pack(side=tk.TOP)
-        self.earth_velocity.pack(side=tk.TOP)
-        m_vel_label.pack(side=tk.TOP)
-        self.moon_velocity.pack(side=tk.TOP)
+        e_vel_label.pack(pady=10)
+        self.earth_velocity.pack()
+        m_vel_label.pack(pady=10)
+        self.moon_velocity.pack()
 
     def _start_running(self):
         """
@@ -164,8 +172,30 @@ class Window:
 
         self.frame.config(width=(0.15 * self.width), height=self.height)
 
+    def open_file(self):
+        """
+        Opens a file and reads planets' datas.
+
+        :return:None
+        """
+        file_address = askopenfile(filetypes=(("Text file", ".txt"),))
+        # TODO: open file and get data
+
+        self._start_running()
+
+    def save_to_file(self):
+        """
+        Saves planets' data after simulation.
+        <type> <R> <color> <mass> <x> <y> <Vx> <Vy>
+
+        :return: None
+        """
+        self._stop_running()
+
+        file_name = asksaveasfile(filetypes=(("Text file", ".txt"),))
+        write_space_objects_data_to_file(file_name.name, self.celestial_bodies)
 
 
 if __name__ == '__main__':
-    window = Window(600, 600)
+    window = Window(800, 700)
     window.run()
