@@ -148,7 +148,9 @@ class Window:
 
         :return: None
         """
-        self.change_position()
+        if self.is_running:
+            self.change_position()
+            self.root.after(1, self.run)
 
     def _stop_running(self):
         """
@@ -185,11 +187,10 @@ class Window:
 
         :return: None
         """
-        dt = 3600
+        dt = 1000
         for body in self.celestial_bodies:
             body.move(self.celestial_bodies, dt)
             x, y, R = self.scale_coordinates(body)
-            print(body.image)
             self.space.coords(body.image, x - R, y - R, x + R, y + R)
 
     def resize(self, event):
@@ -222,7 +223,7 @@ class Window:
             max([(body.x, body.y) for body in self.celestial_bodies],
                 key=lambda c: (c[0] ** 2 + c[1] ** 2))
         )
-        self.scale_factor = 0.8 * (self.width * 0.8) / max_x_or_y  # 0.4 canvas width / max coordinate
+        self.scale_factor = 0.4 * (self.width * 0.8) / max_x_or_y  # 0.4 canvas width / max coordinate
 
         self._start_running()
 

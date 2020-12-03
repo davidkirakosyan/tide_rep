@@ -56,8 +56,7 @@ def write_space_objects_data_to_file(output_filename, objects):
     with open(output_filename, 'w') as out_file:
         for obj in objects:
             object_data_string = ''
-            features = [obj.m, obj.x, obj.y, obj.Vx, obj.Vy,
-                        obj.R, obj.color, obj.drag_readiness]
+            features = [obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy]
             for feature in features:
                 object_data_string += str(feature) + ' '
 
