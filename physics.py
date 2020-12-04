@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 
 gravitational_constant = 6.67408E-11
@@ -50,11 +51,13 @@ def collisions(body, objects):
         v = np.array([obj.Vx, obj.Vy])
         x, y = obj.x, obj.y
 
-        #FIXME (in case objects intersect because of not enough small dt, we pull the body out of the object before collision calculations)
+        l = np.array([x - X, y - Y])
+        l_normalized = l / math.sqrt((x - X)**2 + (y - Y)**2)
+        x, y = np.array([X, Y]) + l_normalized * (body.R + obj.R)
+        obj.x, obj.y = x, y
 
         Vc = (M*V + m*v) / (M + m)  # velocity of center of mass
         P1 = m * M / (M + m) * (V - v)  # momentum of the body in the frame of reference of the center of mass before collision
-        l = np.array([x - X, y - Y])  
         delta_P = -2 * np.dot(P1, l) * l / np.sum(l**2)
         P2 = P1 + delta_P  # after collision
         V_new = P2 / M + Vc  

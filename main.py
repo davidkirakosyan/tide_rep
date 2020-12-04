@@ -232,9 +232,10 @@ class Window:
         self.celestial_bodies.extend(read_space_objects_data_from_file(file_name))
         for i, body in enumerate(self.celestial_bodies):
             body.create_image(self.space)
-            self.mass_sliders[i].set(body.m / 1E22)
-            V = (body.Vx ** 2 + body.Vy ** 2) ** 0.5
-            self.velocity_sliders[i].set(V / 1000)
+            if body.type != 'water':
+                self.mass_sliders[i].set(body.m / 1E22)
+                V = (body.Vx ** 2 + body.Vy ** 2) ** 0.5
+                self.velocity_sliders[i].set(V / 1000)
 
         max_x_or_y = max(
             max([(body.x, body.y) for body in self.celestial_bodies],

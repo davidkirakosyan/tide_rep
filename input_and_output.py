@@ -1,3 +1,4 @@
+import math
 from objects import *
 
 
@@ -16,8 +17,33 @@ def read_space_objects_data_from_file(input_filename):
             obj = PhysicalBall()
             parse_space_object_parameters(line, obj)
             objects.append(obj)
+            if line.split()[0] == 'Earth':
+                objects += create_water(obj)
 
     return objects
+
+
+def create_water(planet, N=70, density=100):
+    '''
+    :param: 
+    N - mumber of molecules
+    :return:
+    new list of objects
+    '''
+    molecules = []
+    r = math.pi * planet.R / N  # radius of molecule
+    for i in range(N):
+        obj = PhysicalBall()
+        obj.R = r
+        obj.color = 'white'
+        obj.m = density * 4/3 * math.pi * r**3
+        obj.x = planet.x + (planet.R + r) * math.cos(2 * math.pi / N * i)
+        obj.y = planet.y + (planet.R + r) * math.sin(2 * math.pi / N * i)
+        obj.type = 'water'
+        molecules += [obj]
+
+    return molecules
+
 
 
 def parse_space_object_parameters(line, obj):

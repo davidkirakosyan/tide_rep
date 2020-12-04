@@ -1,4 +1,3 @@
-from main import *
 from physics import *
 
 
@@ -7,7 +6,8 @@ class PhysicalBall:
     Class that describes solid ball
     """
     def __init__(self, m = 0, x = 0, y = 0, Vx = 0, Vy = 0,
-                 R = 0, color = 'white', drag_readiness = False):
+                 R = 0, color = 'white', drag_readiness = False, type=None):
+        self.type = type
         self.m = m
         self.x = x
         self.y = y
