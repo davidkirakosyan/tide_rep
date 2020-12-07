@@ -42,7 +42,7 @@ class Window:
         self.start_button = tk.Button(self.frame, text="Start", command=self._start_running)
         self.start_button.pack(pady=10)
 
-        load_file = tk.Button(self.frame, text="Open file ...", command=self.open_file)
+        load_file = tk.Button(self.frame, text="Open file ...", command=self.upload_data)
         save_file = tk.Button(self.frame, text="Save to file ...", command=self.save_to_file)
         save_file.pack(pady=10, side=tk.BOTTOM)
         load_file.pack(pady=10, side=tk.BOTTOM)
@@ -222,14 +222,19 @@ class Window:
 
         self.frame.config(width=(0.15 * self.width), height=self.height)
 
-    def open_file(self):
+    def upload_data(self):
         """
-        Opens a file and reads planets' data.
+        Reads planets' data. Creates planets and water molecules.
 
         :return:None
         """
         file_name = askopenfile(filetypes=(("Text file", ".txt"),)).name
         self.celestial_bodies.extend(read_space_objects_data_from_file(file_name))
+        self.celestial_bodies.sort(key=lambda obj: obj.m, reverse=True)
+
+        # adding water molecules
+        self.celestial_bodies.extend(create_water(self.celestial_bodies[0]))
+
         for i, body in enumerate(self.celestial_bodies):
             body.create_image(self.space)
             if body.type != 'water':

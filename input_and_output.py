@@ -17,9 +17,6 @@ def read_space_objects_data_from_file(input_filename):
             obj = PhysicalBall()
             parse_space_object_parameters(line, obj)
             objects.append(obj)
-            if line.split()[0] == 'Earth':
-                objects += create_water(obj)
-
     return objects
 
 
@@ -36,14 +33,13 @@ def create_water(planet, N=70, density=100):
         obj = PhysicalBall()
         obj.R = r
         obj.color = 'white'
-        obj.m = density * 4/3 * math.pi * r**3
+        obj.m = density * 4 / 3 * math.pi * r ** 3
         obj.x = planet.x + (planet.R + r) * math.cos(2 * math.pi / N * i)
         obj.y = planet.y + (planet.R + r) * math.sin(2 * math.pi / N * i)
         obj.type = 'water'
         molecules += [obj]
 
     return molecules
-
 
 
 def parse_space_object_parameters(line, obj):
@@ -57,17 +53,17 @@ def parse_space_object_parameters(line, obj):
     **line** — строка с описание звезды.
     **space_object** — объект.ф
     """
-    x = line.split()[1:]  # skipping first element
+    x = line.split()  # skipping first element
     res = []
 
     for word in x:
         if word.isalpha():
-            value = word
+            value = word.lower()
         else:
             value = float(word)
         res.append(value)
 
-    obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy = res
+    obj.type, obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy = res
 
 
 def write_space_objects_data_to_file(output_filename, objects):
