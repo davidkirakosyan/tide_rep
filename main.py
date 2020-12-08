@@ -214,11 +214,13 @@ class Window:
         :return:
         """
         init_width, init_height = self.width, self.height
-        width_scale, height_scale = self.root.winfo_width() / init_width, self.root.winfo_height() / init_height
         self.width = self.root.winfo_width()
         self.height = self.root.winfo_height()
+        width_scale, height_scale = self.width / init_width, self.height / init_height
+
         self.space.config(width=(0.85 * self.width), height=self.height)
-        self.space.scale("all", 0 / 2, 0 / 2, width_scale, height_scale)
+        self.space.scale("all", 0, 0, width_scale, height_scale)
+        self.scale_factor *= width_scale
 
         self.frame.config(width=(0.15 * self.width), height=self.height)
 
@@ -228,7 +230,15 @@ class Window:
 
         :return:None
         """
-        file_name = askopenfile(filetypes=(("Text file", ".txt"),)).name
+        self._stop_running()
+        self.celestial_bodies.clear()
+        self.space.delete("all")
+
+        try:
+            file_name = askopenfile(filetypes=(("Text file", ".txt"),)).name
+        except AttributeError:
+            raise ValueError("Please upload a file")
+
         self.celestial_bodies.extend(read_space_objects_data_from_file(file_name))
         self.celestial_bodies.sort(key=lambda obj: obj.m, reverse=True)
 
