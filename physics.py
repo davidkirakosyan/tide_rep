@@ -71,3 +71,6 @@ def collisions(body, objects):
         V_new = P2 / M + Vc
 
     body.Vx, body.Vy = V_new
+
+if __name__ == "__main__":
+    print("This module is not for direct call!")

@@ -73,3 +73,6 @@ def create_water(planet, N=70, density=100):
         molecules += [obj]
 
     return molecules
+
+if __name__ == "__main__":
+    print("This module is not for direct call!")
