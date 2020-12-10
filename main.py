@@ -24,6 +24,8 @@ class Window:
         self.frame.pack(fill=tk.X, side=tk.LEFT, expand=1)
 
         self.celestial_bodies = []
+        self.fps = tk.DoubleVar()
+        self.fps.set(100)
 
         self._set_controllers()
 
@@ -60,7 +62,7 @@ class Window:
                 from_=1,
                 to=1000,
                 resolution=10,
-                length=self.width * 0.15,
+                length=(self.width * 0.15),
                 command=lambda value: self.change_mass(value, 0),
             ),
             tk.Scale(
@@ -70,7 +72,7 @@ class Window:
                 from_=1,
                 to=1000,
                 resolution=10,
-                length=self.width * 0.15,
+                length=(self.width * 0.15),
                 command=lambda value: self.change_mass(value, 1),
             )
         ]
@@ -79,8 +81,8 @@ class Window:
             slider.pack()
 
         vel_labels = [
-            tk.Label(self.frame, text='Earth Velocity in km/s', wraplength=(self.width / 5)),
-            tk.Label(self.frame, text='Moon Velocity in km/s', wraplength=(self.width / 5)),
+            tk.Label(self.frame, text='Earth Velocity in m/s', wraplength=(self.width / 5)),
+            tk.Label(self.frame, text='Moon Velocity in m/s', wraplength=(self.width / 5)),
         ]
         self.velocity_sliders = [
             tk.Scale(
@@ -88,8 +90,8 @@ class Window:
                 variable=tk.DoubleVar(),
                 orient=tk.HORIZONTAL,
                 from_=1,
-                to=30,
-                length=self.width * 0.15,
+                to=1000,
+                length=(self.width * 0.15),
                 command=lambda value: self.change_velocity(value, 0),
             ),
             tk.Scale(
@@ -97,8 +99,8 @@ class Window:
                 variable=tk.DoubleVar(),
                 orient=tk.HORIZONTAL,
                 from_=1,
-                to=30,
-                length=self.width * 0.15,
+                to=1500,
+                length=(self.width * 0.15),
                 command=lambda value: self.change_velocity(value, 1),
             )
         ]
@@ -106,6 +108,19 @@ class Window:
         for label, slider in zip(self.velocity_sliders, vel_labels):
             label.pack(pady=10)
             slider.pack()
+
+        fps_label = tk.Label(self.frame, text="FPS", wraplength=(self.width / 5))
+        fps_label.pack(pady=10)
+        fps_scale = tk.Scale(
+            self.frame,
+            variable=self.fps,
+            orient=tk.HORIZONTAL,
+            from_=10,
+            to=500,
+            resolution=10,
+            length=self.width * 0.15,
+        )
+        fps_scale.pack()
 
     def _start_running(self):
         """
@@ -136,7 +151,8 @@ class Window:
         for body in self.celestial_bodies:
             if body.drag_readiness:
                 body.drag_readiness = False
-                x = (event.x - self.space.winfo_width() / 2) * 100 / (self.scale_factor * self.zoom_percent)  # coords rescaling
+                x = (event.x - self.space.winfo_width() / 2) * 100 / (
+                        self.scale_factor * self.zoom_percent)  # coords rescaling
                 y = (event.y - self.space.winfo_height() / 2) * 100 / (self.scale_factor * self.zoom_percent)
                 body.x = x
                 body.y = y
@@ -150,7 +166,8 @@ class Window:
         """
         for body in self.celestial_bodies:
             if body.drag_readiness:
-                x = (event.x - self.space.winfo_width() / 2) * 100 / (self.scale_factor * self.zoom_percent)  # coords rescaling
+                x = (event.x - self.space.winfo_width() / 2) * 100 / (
+                        self.scale_factor * self.zoom_percent)  # coords rescaling
                 y = (event.y - self.space.winfo_height() / 2) * 100 / (self.scale_factor * self.zoom_percent)
                 body.x = x
                 body.y = y
@@ -165,7 +182,7 @@ class Window:
         """
         if self.is_running:
             self.change_position()
-            self.root.after(1, self.run)
+            self.root.after(int(1000 / self.fps.get()), self.run)
 
     def _stop_running(self):
         """
@@ -251,7 +268,7 @@ class Window:
             if body.type != 'water':
                 self.mass_sliders[i].set(body.m / 1E22)
                 V = (body.Vx ** 2 + body.Vy ** 2) ** 0.5
-                self.velocity_sliders[i].set(V / 1000)
+                self.velocity_sliders[i].set(V)
 
         max_x_or_y = max(
             max([(body.x, body.y) for body in self.celestial_bodies],
@@ -295,7 +312,7 @@ class Window:
         if len(self.celestial_bodies) > 0:
             Vx, Vy = self.celestial_bodies[i].Vx, self.celestial_bodies[i].Vy
             V_init = (Vx ** 2 + Vy ** 2) ** 0.5
-            V_new = float(value) * 1000
+            V_new = float(value)
             self.celestial_bodies[i].Vx *= V_new / V_init
             self.celestial_bodies[i].Vy *= V_new / V_init
 
