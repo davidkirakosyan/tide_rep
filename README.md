@@ -23,7 +23,7 @@ Tide effects modelling & 2 bodies problem demonstration
 
 1. Зайдите на официальный сайт *Python*: [Python web]
 2. Нажмите на *Downloads*: 
-![image 1](https://drive.google.com/file/d/1-UKA4_89b5LoVFSstu5xEVyHJVoyn5Cc/view?usp=sharing)
+![image 1](https://thumb.tildacdn.com/tild3564-3062-4361-b362-336438376132/-/resize/300x/-/format/webp/noroot.png)
 3. Выберите операционную систему, на которой работаете (показан пример для Windows): 
 ![image 2](https://drive.google.com/file/d/1HPpQc8JixkOEAcbM7lE3KdGLuDd3T260/view?usp=sharing)
 4. Нажмите на ссылку с последней версией *Python* : 
