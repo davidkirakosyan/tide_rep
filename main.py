@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter.filedialog import askopenfile, asksaveasfile
 
 from input_and_output import *
+from objects import *
 
 
 class Window:

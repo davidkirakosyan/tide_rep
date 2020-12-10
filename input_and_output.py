@@ -1,12 +1,11 @@
-import math
 from objects import *
 
 
 def read_space_objects_data_from_file(input_filename):
-    """Cчитывает данные о космических объектах из файла, создаёт сами объекты
-    и вызывает создание их графических образов
-    Параметры:
-    **input_filename** — имя входного файла
+    """
+    Reads data of celestial bodies from file, creates objects and their images.
+
+    :param input_filename: the uploaded file name
     """
 
     objects = []
@@ -20,38 +19,14 @@ def read_space_objects_data_from_file(input_filename):
     return objects
 
 
-def create_water(planet, N=70, density=100):
-    '''
-    :param: 
-    N - mumber of molecules
-    :return:
-    new list of objects
-    '''
-    molecules = []
-    r = math.pi * planet.R / N  # radius of molecule
-    for i in range(N):
-        obj = PhysicalBall()
-        obj.R = r
-        obj.color = 'white'
-        obj.m = density * 4 / 3 * math.pi * r ** 3
-        obj.x = planet.x + (planet.R + r) * math.cos(2 * math.pi / N * i)
-        obj.y = planet.y + (planet.R + r) * math.sin(2 * math.pi / N * i)
-        obj.type = 'water'
-        molecules += [obj]
-
-    return molecules
-
-
 def parse_space_object_parameters(line, obj):
-    """Считывает данные об объекте из строки.
-    Входная строка должна иметь слеюущий формат:
-    Star <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
-    Здесь (x, y) — координаты объекта, (Vx, Vy) — скорость.
-    Пример строки:
-    Star 10 red 1000 1 2 3 4
-    Параметры:
-    **line** — строка с описание звезды.
-    **space_object** — объект.ф
+    """
+    Reads object data from line. Input line has the following syntax:
+    Planet <radius> <color> <mass> <x> <y> <Vx> <Vy>
+
+    :param line: string with planet's data.
+    :param obj: PhysicalBall object
+    :return: None
     """
     x = line.split()  # skipping first element
     res = []
@@ -67,13 +42,13 @@ def parse_space_object_parameters(line, obj):
 
 
 def write_space_objects_data_to_file(output_filename, objects):
-    """Сохраняет данные о космических объектах в файл.
-    Строки должны иметь следующий формат:
-    Star <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
-    Planet <радиус в пикселах> <цвет> <масса> <x> <y> <Vx> <Vy>
-    Параметры:
-    **output_filename** — имя входного файла
-    **space_objects** — список объектов планет и звёзд
+    """
+    Saves celestial bodies data into file in the following format:
+    Planet <radius> <color> <mass> <x> <y> <Vx> <Vy>
+
+    :param output_filename: file in which will be written the data
+    :param objects: list with planets
+    :return: None
     """
     with open(output_filename, 'w') as out_file:
         for obj in objects:
