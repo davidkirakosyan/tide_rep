@@ -94,7 +94,7 @@ class Window:
                 variable=tk.DoubleVar(),
                 orient=tk.HORIZONTAL,
                 from_=1,
-                to=1000,
+                to=2300,
                 length=(self.width * 0.15),
                 command=lambda value: self.change_velocity(value, 0),
             ),
@@ -103,7 +103,7 @@ class Window:
                 variable=tk.DoubleVar(),
                 orient=tk.HORIZONTAL,
                 from_=1,
-                to=1500,
+                to=2300,
                 length=(self.width * 0.15),
                 command=lambda value: self.change_velocity(value, 1),
             )
