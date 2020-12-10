@@ -24,6 +24,10 @@ class Window:
         self.frame.pack(fill=tk.X, side=tk.LEFT, expand=1)
 
         self.celestial_bodies = []
+        self.ocean = []
+        self.showing_ocean = tk.BooleanVar()
+        self.showing_ocean.set(False)
+
         self.fps = tk.DoubleVar()
         self.fps.set(100)
 
@@ -43,12 +47,12 @@ class Window:
         :return:
         """
         self.start_button = tk.Button(self.frame, text="Start", command=self._start_running)
-        self.start_button.pack(pady=10)
+        self.start_button.pack(pady=6)
 
         load_file = tk.Button(self.frame, text="Open file ...", command=self.upload_data)
         save_file = tk.Button(self.frame, text="Save to file ...", command=self.save_to_file)
-        save_file.pack(pady=10, side=tk.BOTTOM)
-        load_file.pack(pady=10, side=tk.BOTTOM)
+        save_file.pack(pady=6, side=tk.BOTTOM)
+        load_file.pack(pady=6, side=tk.BOTTOM)
 
         mass_labels = [
             tk.Label(self.frame, text='Earth Mass in 10^22', wraplength=(self.width / 5)),
@@ -77,7 +81,7 @@ class Window:
             )
         ]
         for label, slider in zip(self.mass_sliders, mass_labels):
-            label.pack(pady=10)
+            label.pack(pady=6)
             slider.pack()
 
         vel_labels = [
@@ -106,11 +110,11 @@ class Window:
         ]
 
         for label, slider in zip(self.velocity_sliders, vel_labels):
-            label.pack(pady=10)
+            label.pack(pady=6)
             slider.pack()
 
         fps_label = tk.Label(self.frame, text="FPS", wraplength=(self.width / 5))
-        fps_label.pack(pady=10)
+        fps_label.pack(pady=6)
         fps_scale = tk.Scale(
             self.frame,
             variable=self.fps,
@@ -121,6 +125,10 @@ class Window:
             length=self.width * 0.15,
         )
         fps_scale.pack()
+
+        ocean_check = tk.Checkbutton(self.frame, text="Ocean On/Off", variable=self.showing_ocean,
+                                     onvalue=True, offvalue=False, command=self.show_ocean)
+        ocean_check.pack(pady=6)
 
     def _start_running(self):
         """
@@ -220,8 +228,10 @@ class Window:
         :return: None
         """
         dt = 800
-        for body in self.celestial_bodies:
-            body.move(self.celestial_bodies, dt)
+        all_objects = self.celestial_bodies + self.ocean
+        for body in all_objects:
+            body.move(all_objects, dt)
+            self.change_sliders_value()
             x, y, R = self.scale_coordinates(body)
             self.space.coords(body.image, x - R, y - R, x + R, y + R)
 
@@ -250,6 +260,7 @@ class Window:
         """
         self._stop_running()
         self.celestial_bodies.clear()
+        self.ocean.clear()
         self.space.delete("all")
 
         try:
@@ -260,18 +271,17 @@ class Window:
         self.celestial_bodies.extend(read_space_objects_data_from_file(file_name))
         self.celestial_bodies.sort(key=lambda obj: obj.m, reverse=True)
 
-        # adding water molecules
-        self.celestial_bodies.extend(create_water(self.celestial_bodies[0]))
-
         for i, body in enumerate(self.celestial_bodies):
             body.create_image(self.space)
-            if body.type != 'water':
-                self.mass_sliders[i].set(body.m / 1E22)
-                V = (body.Vx ** 2 + body.Vy ** 2) ** 0.5
-                self.velocity_sliders[i].set(V)
+            self.mass_sliders[i].set(body.m / 1E22)
+
+        self.change_sliders_value()  # adjusting velocity sliders
+
+        for molecule in self.ocean:
+            molecule.create_image(self.space)
 
         max_x_or_y = max(
-            max([(body.x, body.y) for body in self.celestial_bodies],
+            max([(body.x, body.y) for body in self.celestial_bodies + self.ocean],
                 key=lambda c: (c[0] ** 2 + c[1] ** 2))
         )
         self.scale_factor = 0.4 * (self.width * 0.8) / max_x_or_y  # 0.4 canvas width / max coordinate
@@ -315,6 +325,31 @@ class Window:
             V_new = float(value)
             self.celestial_bodies[i].Vx *= V_new / V_init
             self.celestial_bodies[i].Vy *= V_new / V_init
+
+    def show_ocean(self):
+        """
+        If Check box is checked fills self.ocean list.
+
+        :return: None
+        """
+        if self.showing_ocean.get():
+            self.ocean.extend(create_water(self.celestial_bodies[0]))
+            for molecule in self.ocean:
+                molecule.create_image(self.space)
+        else:
+            for molecule in self.ocean:
+                self.space.delete(molecule.image)
+            self.ocean.clear()
+
+    def change_sliders_value(self):
+        """
+        Changes velocity slider values when celestial bodies are moving.
+
+        :return: None
+        """
+        for i, body in enumerate(self.celestial_bodies):
+            V = (body.Vx ** 2 + body.Vy ** 2) ** 0.5
+            self.velocity_sliders[i].set(V)
 
 
 if __name__ == '__main__':
