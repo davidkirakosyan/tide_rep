@@ -23,24 +23,24 @@ Tide effects modelling & 2 bodies problem demonstration
 
 1. Зайдите на официальный сайт *Python*: [Python web]
 2. Нажмите на *Downloads*: 
-![image 1](https://thumb.tildacdn.com/tild3564-3062-4361-b362-336438376132/-/resize/300x/-/format/webp/noroot.png)
+![image 1](https://thumb.tildacdn.com/tild6630-6634-4835-b864-653434316537/-/format/webp/1.png)
 3. Выберите операционную систему, на которой работаете (показан пример для Windows): 
-![image 2](https://drive.google.com/file/d/1HPpQc8JixkOEAcbM7lE3KdGLuDd3T260/view?usp=sharing)
+![image 2](https://thumb.tildacdn.com/tild3162-3530-4462-b766-653539613736/-/format/webp/2.png)
 4. Нажмите на ссылку с последней версией *Python* : 
-![image 3](https://drive.google.com/file/d/1OX_PyP5wOv2w2oUlymYFD26Ho_HJbOeM/view?usp=sharing)
+![image 3](https://thumb.tildacdn.com/tild3832-3636-4432-a566-316537366338/-/format/webp/3.png)
 5. Выберите версию для Вашего процессора (показан пример для 64-битного) : 
-![image 4](https://drive.google.com/file/d/1RCP9dhYiVaObBwEliBD0X09RxT4c_9Dq/view?usp=sharing)
+![image 4](https://thumb.tildacdn.com/tild6263-3037-4164-b136-623437326432/-/format/webp/4.png)
 Начнётся загрузка *Python* на Ваш компьютер
 6. Запустите установщик *Python*:
-![image 5](https://drive.google.com/file/d/1hagSIR59Y7gdsdNrTZzrgx5UKLjooNhh/view?usp=sharing)
+![image 5](https://thumb.tildacdn.com/tild3539-3539-4235-b339-366566373230/-/format/webp/5.png)
 7. Если вы желаете настроить установку, нажмите на *Customize installation*. 
-![image 6](https://drive.google.com/file/d/1uE6VYDxILKIXd-P8Cy2lHXVd9pMRA3Xy/view?usp=sharing)
+![image 6](https://thumb.tildacdn.com/tild3665-6362-4438-b961-393166653035/-/format/webp/6.png)
 Если Вы желате настроить установку, то убедитесь, что Вы устанавливаете tkinter:
-![image 7](https://drive.google.com/file/d/15Wr7xWVvTggHDC28tXzeY0K6rYyEdZGy/view?usp=sharing)
+![image 7](https://thumb.tildacdn.com/tild3137-3437-4862-a266-303164303237/-/format/webp/7.png)
 После этого нажмите на "Install now"
 Если вы не желаете настроить установку, нажмите на "Install now"
 8. Дождитесь конца установки *Python* на Ваш компьютер
-![image 8](https://drive.google.com/file/d/1AkSvknMOtMWomCPdHJ1HEYofEL1GUTIj/view?usp=sharing)
+![image 8](https://thumb.tildacdn.com/tild6338-3434-4064-b432-343062336265/-/format/webp/8.png)
 
 После этого в папке ***tide_rep*** нажмите на файл ***main***
 
