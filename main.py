@@ -28,9 +28,9 @@ class Window:
 
         self.space.bind('<ButtonPress>', self.zoom)
         self.root.bind('<Configure>', self.resize)
-        self.space.bind('<Button-2>', self.drag_start)
-        self.space.bind('<B2-Motion>', self.drag)
-        self.space.bind('<ButtonRelease-2>', self.drag_finish)
+        self.space.bind('<Button-1>', self.drag_start)
+        self.space.bind('<B1-Motion>', self.drag)
+        self.space.bind('<ButtonRelease-1>', self.drag_finish)
         self.root.mainloop()
 
     def _set_controllers(self):
@@ -135,8 +135,8 @@ class Window:
         for body in self.celestial_bodies:
             if body.drag_readiness:
                 body.drag_readiness = False
-                x = (event.x - self.width / 2) * 100 / (self.scale_factor * self.zoom_percent)  # coords rescaling
-                y = (event.y - self.height / 2) * 100 / (self.scale_factor * self.zoom_percent)
+                x = (event.x - self.space.winfo_width() / 2) * 100 / (self.scale_factor * self.zoom_percent)  # coords rescaling
+                y = (event.y - self.space.winfo_height() / 2) * 100 / (self.scale_factor * self.zoom_percent)
                 body.x = x
                 body.y = y
                 x, y, R = self.scale_coordinates(body)
@@ -149,8 +149,8 @@ class Window:
         """
         for body in self.celestial_bodies:
             if body.drag_readiness:
-                x = (event.x - self.width / 2) * 100 / (self.scale_factor * self.zoom_percent)  # coords rescaling
-                y = (event.y - self.height / 2) * 100 / (self.scale_factor * self.zoom_percent)
+                x = (event.x - self.space.winfo_width() / 2) * 100 / (self.scale_factor * self.zoom_percent)  # coords rescaling
+                y = (event.y - self.space.winfo_height() / 2) * 100 / (self.scale_factor * self.zoom_percent)
                 body.x = x
                 body.y = y
                 x, y, R = self.scale_coordinates(body)
@@ -180,7 +180,7 @@ class Window:
         if self.is_running:
             if event.num == 5 and self.zoom_percent > 50:  # Scroll down
                 self.zoom_percent -= 10
-            elif event.num == 4 and self.zoom_percent < 160:  # Scroll up
+            elif event.num == 4 and self.zoom_percent < 200:  # Scroll up
                 self.zoom_percent += 10
 
     def scale_coordinates(self, cel_obj):
@@ -190,8 +190,8 @@ class Window:
         :param cel_obj: celestial object
         :return: (new_x, new_y)
         """
-        new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100 + self.width / 2
-        new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100 + self.height / 2
+        new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_width() / 2
+        new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_height() / 2
         new_R = cel_obj.R * self.scale_factor * self.zoom_percent / 100
         return new_x, new_y, new_R
 
@@ -201,7 +201,7 @@ class Window:
 
         :return: None
         """
-        dt = 1000
+        dt = 800
         for body in self.celestial_bodies:
             body.move(self.celestial_bodies, dt)
             x, y, R = self.scale_coordinates(body)

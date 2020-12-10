@@ -42,6 +42,6 @@ class PhysicalBall:
         creates image for PhysicalBall objects
         '''
         R = self.R
-        self.image = canv.create_oval([0, 0], [2 * R, 2 * R], fill=self.color)
+        self.image = canv.create_oval([0, 0], [2 * R, 2 * R], fill=self.color, outline='')
             
 
