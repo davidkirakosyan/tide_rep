@@ -6,6 +6,7 @@ Tide effects modelling & 2 bodies problem demonstration
 Использованные библиотеки языка *Python*
 1. Стандартная библиотека
 2. Встроенная библиотека tkinter
+3. Библиотека numpy
 
 Прогамма работает на Windows, MacOS
 
@@ -24,24 +25,23 @@ Tide effects modelling & 2 bodies problem demonstration
 1. Зайдите на официальный сайт *Python*: [Python web]
 2. Нажмите на *Downloads*: 
 ![image 1](https://thumb.tildacdn.com/tild6630-6634-4835-b864-653434316537/-/format/webp/1.png)
-3. Выберите операционную систему, на которой работаете (показан пример для Windows): 
-![image 2](https://thumb.tildacdn.com/tild3162-3530-4462-b766-653539613736/-/format/webp/2.png)
-4. Нажмите на ссылку с последней версией *Python* : 
-![image 3](https://thumb.tildacdn.com/tild3832-3636-4432-a566-316537366338/-/format/webp/3.png)
-5. Выберите версию для Вашего процессора (показан пример для 64-битного) : 
-![image 4](https://thumb.tildacdn.com/tild6263-3037-4164-b136-623437326432/-/format/webp/4.png)
-Начнётся загрузка *Python* на Ваш компьютер
+3. Выберите операционную систему, на которой работаете, нажмите на ссылку с последней версией *Python*, 
+   выберите версию для Вашего процессора. Начнётся загрузка *Python* на Ваш компьютер
 6. Запустите установщик *Python*:
 ![image 5](https://thumb.tildacdn.com/tild3539-3539-4235-b339-366566373230/-/format/webp/5.png)
 7. Если вы желаете настроить установку, нажмите на *Customize installation*. 
-![image 6](https://thumb.tildacdn.com/tild3665-6362-4438-b961-393166653035/-/format/webp/6.png)
 Если Вы желате настроить установку, то убедитесь, что Вы устанавливаете tkinter:
 ![image 7](https://thumb.tildacdn.com/tild3137-3437-4862-a266-303164303237/-/format/webp/7.png)
-После этого нажмите на "Install now"
+После настройки установки нажмите на "Install"
 Если вы не желаете настроить установку, нажмите на "Install now"
 8. Дождитесь конца установки *Python* на Ваш компьютер
-![image 8](https://thumb.tildacdn.com/tild6338-3434-4064-b432-343062336265/-/format/webp/8.png)
+9. В Windows PowerShell установите библиотеку numpy:
+![image 9](https://thumb.tildacdn.com/tild3135-3962-4634-b736-366631303761/-/format/webp/9.png)
+10. Скачайте программу на свой компьютер:
+![image 10](https://thumb.tildacdn.com/tild6333-3965-4138-b435-363761636332/-/format/webp/9.png)
+10. Разархивируйте программу и в папке ***tide_rep*** нажмите на файл ***main***
+После этого программа запуститься
 
-После этого в папке ***tide_rep*** нажмите на файл ***main***
+## Как добавить объекты на поле
 
 [Python web]:https://www.python.org/
