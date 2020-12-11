@@ -38,7 +38,15 @@ class Window:
         self.space.bind('<Button-1>', self.drag_start)
         self.space.bind('<B1-Motion>', self.drag)
         self.space.bind('<ButtonRelease-1>', self.drag_finish)
+        self.job = None
+        self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
         self.root.mainloop()
+
+    def on_closing(self):
+        self._stop_running()
+        if self.job:
+            self.root.after_cancel(self.job)
+        self.root.destroy()
 
     def _set_controllers(self):
         """
@@ -67,18 +75,8 @@ class Window:
                 to=1000,
                 resolution=10,
                 length=(self.width * 0.15),
-                command=lambda value: self.change_mass(value, 0),
-            ),
-            tk.Scale(
-                self.frame,
-                variable=tk.DoubleVar(),
-                orient=tk.HORIZONTAL,
-                from_=1,
-                to=1000,
-                resolution=10,
-                length=(self.width * 0.15),
-                command=lambda value: self.change_mass(value, 1),
-            )
+                command=lambda value: self.change_mass(value, i),
+            ) for i in (0, 1)
         ]
         for label, slider in zip(self.mass_sliders, mass_labels):
             label.pack(pady=6)
@@ -190,7 +188,7 @@ class Window:
         """
         if self.is_running:
             self.change_position()
-            self.root.after(int(1000 / self.fps.get()), self.run)
+            self.job = self.root.after(int(1000 / self.fps.get()), self.run)
 
     def _stop_running(self):
         """
