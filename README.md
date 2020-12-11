@@ -42,6 +42,7 @@ Tide effects modelling & 2 bodies problem demonstration
 ![image 10](https://thumb.tildacdn.com/tild6333-6236-4231-a266-623530393235/-/format/webp/10.png)
 11. Разархивируйте программу и в папке ***tide_rep*** нажмите на файл ***main***
 После этого программа запуститься
+[Назад к содержанию]
 
 ## 2.Как добавить объекты на поле
 
@@ -53,11 +54,13 @@ Tide effects modelling & 2 bodies problem demonstration
 Он содержит всё необходимое для достижения целей проекта.
 3. После этого вы увидете соответсвующие объекты на поле
 ![image 13](https://thumb.tildacdn.com/tild3964-3439-4162-b564-613839636436/-/format/webp/13.png)
+[Назад к содержанию]
 
 ## 3.Отслеживание скорости объектов
 
 В процессе работы программы скорости обоих объектов будут отображаться на соответсвующих ползунках справа
 ![image 14](https://thumb.tildacdn.com/tild3862-3363-4163-a236-636636643662/-/format/webp/14.png)
+[Назад к содержанию]
 
 ## 4.Скорость течения времени и пауза
 
@@ -69,6 +72,7 @@ Tide effects modelling & 2 bodies problem demonstration
 
 3. Продолжить работу программы можно с помощью кнопки ***Start***
 ![image 17](https://thumb.tildacdn.com/tild6432-3765-4666-b438-323834323039/-/format/webp/17.png)
+[Назад к содержанию]
 
 ## 5.Регулировка положения и параметров объектов
 
@@ -86,11 +90,13 @@ Tide effects modelling & 2 bodies problem demonstration
 
 3. Также можно искусственно регулировать скорости объектов с помощью соответсвующих ползунков
 ![image 14](https://thumb.tildacdn.com/tild3862-3363-4163-a236-636636643662/-/format/webp/14.png)
+[Назад к содержанию]
 
 ## 6.Наблюдение приливных эффектов
 
 Для того, чтобы наблюдать приливные эффекты, нужно включить соответсвующую функцию посредством галочки возле ***Ocean On/Off***
 ![image 21](https://thumb.tildacdn.com/tild3030-3935-4634-b265-666537626535/-/format/webp/21.png)
+[Назад к содержанию]
 
 [Python web]:https://www.python.org/
 [Как запускать нашу программу]:https://github.com/davidkirakosyan/tide_rep#1%D0%BA%D0%B0%D0%BA-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D1%82%D1%8C-%D0%BD%D0%B0%D1%88%D1%83-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D1%83
@@ -99,3 +105,4 @@ Tide effects modelling & 2 bodies problem demonstration
 [Скорость течения времени и пауза]:https://github.com/davidkirakosyan/tide_rep#4%D1%81%D0%BA%D0%BE%D1%80%D0%BE%D1%81%D1%82%D1%8C-%D1%82%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B2%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B8-%D0%B8-%D0%BF%D0%B0%D1%83%D0%B7%D0%B0
 [Регулировка положения и параметров объектов]:https://github.com/davidkirakosyan/tide_rep#5%D1%80%D0%B5%D0%B3%D1%83%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BF%D0%BE%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B8-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D0%BE%D0%B2-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2
 [Наблюдение приливных эффектов]:https://github.com/davidkirakosyan/tide_rep#6%D0%BD%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%B8%D0%BB%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-%D1%8D%D1%84%D1%84%D0%B5%D0%BA%D1%82%D0%BE%D0%B2
+[Назад к содержанию]:https://github.com/davidkirakosyan/tide_rep#%D1%81%D0%BE%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D0%BD%D0%B8%D0%B5
