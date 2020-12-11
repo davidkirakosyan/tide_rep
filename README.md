@@ -1,4 +1,4 @@
-﻿# tide_rep
+﻿# Приливные силы и задача двух тел
 Tide effects modelling & 2 bodies problem demonstration 
 
 Программа позволяет изучать задачу двух тел и приливные силы в системе двух тел
@@ -9,8 +9,6 @@ Tide effects modelling & 2 bodies problem demonstration
 3. Библиотека numpy
 
 Прогамма работает на Windows, MacOS, Linux
-
-На Windows может не работать функция масштабирования
 
 ## Содержание
 
