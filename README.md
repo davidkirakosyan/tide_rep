@@ -47,9 +47,9 @@ Tide effects modelling & 2 bodies problem demonstration
 
 В данной программе изначальные параметры объектов подгружаются из файла. Поэтому для того, чтобы добавить элементы на поле, 
 1. Нажмите на ***Open file...***
-![image 11](https://thumb.tildacdn.com/tild3432-6337-4265-a465-643431393061/-/format/webp/11.png)
-2. Выберите нужный файл (изначально в папке уже есть файл ***planets data***:
-![image 12](https://thumb.tildacdn.com/tild3232-6166-4830-a431-356165613930/-/format/webp/12.png)
+![image 11](https://thumb.tildacdn.com/tild3135-6138-4739-a363-663136663139/-/format/webp/11.png)
+2. Выберите нужный файл (изначально в папке уже есть файл ***planets data***):
+![image 12](https://thumb.tildacdn.com/tild3334-3633-4332-b339-313866366435/-/format/webp/12.png)
 Он содержит всё необходимое для достижения целей проекта.
 3. После этого вы увидете соответсвующие объекты на поле
 ![image 13](https://thumb.tildacdn.com/tild3964-3439-4162-b564-613839636436/-/format/webp/13.png)
@@ -77,6 +77,7 @@ Tide effects modelling & 2 bodies problem demonstration
 
 Перемещать объекты можно как в режиме работы,
 ![image 18](https://static.tildacdn.com/tild3966-6264-4461-b234-626565356462/181.gif)
+
 так и в режиме паузы
 ![image 19](https://static.tildacdn.com/tild6631-3337-4365-b932-393763626633/191.gif)
 
