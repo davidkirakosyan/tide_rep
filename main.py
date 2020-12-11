@@ -33,7 +33,8 @@ class Window:
 
         self._set_controllers()
 
-        self.space.bind('<ButtonPress>', self.zoom)
+        self.space.bind('<ButtonPress>', self.zoom)  # For Linux
+        self.space.bind('<MouseWheel>', self.zoom)  # For Windows and MacOS
         self.root.bind('<Configure>', self.resize)
         self.space.bind('<Button-1>', self.drag_start)
         self.space.bind('<B1-Motion>', self.drag)
@@ -95,16 +96,7 @@ class Window:
                 to=2300,
                 length=(self.width * 0.15),
                 command=lambda value: self.change_velocity(value, 0),
-            ),
-            tk.Scale(
-                self.frame,
-                variable=tk.DoubleVar(),
-                orient=tk.HORIZONTAL,
-                from_=1,
-                to=2300,
-                length=(self.width * 0.15),
-                command=lambda value: self.change_velocity(value, 1),
-            )
+            ) for i in (0, 1)
         ]
 
         for label, slider in zip(self.velocity_sliders, vel_labels):
@@ -202,9 +194,9 @@ class Window:
 
     def zoom(self, event):
         if self.is_running:
-            if event.num == 5 and self.zoom_percent > 50:  # Scroll down
+            if (event.num == 5 or event.delta < 0) and self.zoom_percent > 50:  # Scroll down
                 self.zoom_percent -= 10
-            elif event.num == 4 and self.zoom_percent < 200:  # Scroll up
+            elif (event.num == 4 or event.delta > 0) and self.zoom_percent < 400:  # Scroll up
                 self.zoom_percent += 10
 
     def scale_coordinates(self, cel_obj):
