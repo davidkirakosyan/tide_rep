@@ -76,8 +76,18 @@ class Window:
                 to=1000,
                 resolution=10,
                 length=(self.width * 0.15),
-                command=lambda value: self.change_mass(value, i),
-            ) for i in (0, 1)
+                command=lambda value: self.change_mass(value, 0),
+            ),
+            tk.Scale(
+                self.frame,
+                variable=tk.DoubleVar(),
+                orient=tk.HORIZONTAL,
+                from_=1,
+                to=1000,
+                resolution=10,
+                length=(self.width * 0.15),
+                command=lambda value: self.change_mass(value, 1),
+            )
         ]
         for label, slider in zip(self.mass_sliders, mass_labels):
             label.pack(pady=6)
@@ -96,7 +106,16 @@ class Window:
                 to=2300,
                 length=(self.width * 0.15),
                 command=lambda value: self.change_velocity(value, 0),
-            ) for i in (0, 1)
+            ),
+            tk.Scale(
+                self.frame,
+                variable=tk.DoubleVar(),
+                orient=tk.HORIZONTAL,
+                from_=1,
+                to=2300,
+                length=(self.width * 0.15),
+                command=lambda value: self.change_velocity(value, 1),
+            )
         ]
 
         for label, slider in zip(self.velocity_sliders, vel_labels):
