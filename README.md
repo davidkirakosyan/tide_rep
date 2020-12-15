@@ -20,6 +20,7 @@ Tide effects modelling & 2 bodies problem demonstration
 6. [Наблюдение приливных эффектов]
 7. [Как сохранить текущие параметры объектов в файл]
 8. [Как изменить масштаб изображения]
+9. [Как поменять область обзора]
 
 ## 1.Как запускать нашу программу
 
@@ -113,6 +114,15 @@ Tide effects modelling & 2 bodies problem demonstration
 Чтобы изменять масштаб изображения, прокручивайте среднюю кнопку мыши. Прокрутка вверх уменьшит масштаб, вниз - увеличит.                                                
 [Назад к содержанию]
 
+## 9. Как поменять область обзора
+Чтобы поменять область обзора, наведите курсор на то место на полотне, где нет объектов. Зажмите левую кнопку мыши и перетащите полотно в нужную вам сторону.                  
+Перемещать полотно можно как в режиме работы
+![image 24](https://static.tildacdn.com/tild6231-3535-4861-b064-373164393634/241.gif)
+
+так и в режиме паузы
+![image 25](https://static.tildacdn.com/tild6666-6362-4165-b634-303566333433/251.gif)                                                                   
+[Назад к содержанию]
+
 [Python web]:https://www.python.org/
 [Как запускать нашу программу]:https://github.com/davidkirakosyan/tide_rep#1%D0%BA%D0%B0%D0%BA-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%B0%D1%82%D1%8C-%D0%BD%D0%B0%D1%88%D1%83-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D1%83
 [Как добавить объекты на поле]:https://github.com/davidkirakosyan/tide_rep#2%D0%BA%D0%B0%D0%BA-%D0%B4%D0%BE%D0%B1%D0%B0%D0%B2%D0%B8%D1%82%D1%8C-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D1%8B-%D0%BD%D0%B0-%D0%BF%D0%BE%D0%BB%D0%B5
@@ -122,4 +132,5 @@ Tide effects modelling & 2 bodies problem demonstration
 [Наблюдение приливных эффектов]:https://github.com/davidkirakosyan/tide_rep#6%D0%BD%D0%B0%D0%B1%D0%BB%D1%8E%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%B8%D0%BB%D0%B8%D0%B2%D0%BD%D1%8B%D1%85-%D1%8D%D1%84%D1%84%D0%B5%D0%BA%D1%82%D0%BE%D0%B2
 [Как сохранить текущие параметры объектов в файл]:https://github.com/davidkirakosyan/tide_rep/blob/main/README.md#7-%D0%BA%D0%B0%D0%BA-%D1%81%D0%BE%D1%85%D1%80%D0%B0%D0%BD%D0%B8%D1%82%D1%8C-%D1%82%D0%B5%D0%BA%D1%83%D1%89%D0%B8%D0%B5-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BE%D0%B2-%D0%B2-%D1%84%D0%B0%D0%B9%D0%BB
 [Как изменить масштаб изображения]:https://github.com/davidkirakosyan/tide_rep/blob/main/README.md#8-%D0%BA%D0%B0%D0%BA-%D0%B8%D0%B7%D0%BC%D0%B5%D0%BD%D0%B8%D1%82%D1%8C-%D0%BC%D0%B0%D1%81%D1%88%D1%82%D0%B0%D0%B1-%D0%B8%D0%B7%D0%BE%D0%B1%D1%80%D0%B0%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F
+[Как поменять область обзора]:
 [Назад к содержанию]:https://github.com/davidkirakosyan/tide_rep#%D1%81%D0%BE%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D0%BD%D0%B8%D0%B5
