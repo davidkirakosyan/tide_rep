@@ -172,6 +172,17 @@ class Window:
         self.start_button['text'] = 'Start'
         self.start_button['command'] = self._start_running
 
+    def update_screen(self):
+        """
+        Updates Canvas, when program is paused.
+
+        :return: None
+        """
+        if not self.is_running:
+            for body in self.celestial_bodies + self.ocean:
+                x, y, R = self.scale_coordinates(body)
+                self.space.coords(body.image, x - R, y - R, x + R, y + R)
+
     def drag_start(self, event):
         """
         Grabs an object via clicking on it by mouse
@@ -218,12 +229,15 @@ class Window:
             self.x0 = event.x - self.start_x0
             self.y0 = event.y - self.start_y0
 
+        self.update_screen()
+
     def zoom(self, event):
-        if self.is_running:
-            if (event.num == 5 or event.delta < 0) and self.zoom_percent > 50:  # Scroll down
-                self.zoom_percent -= 10
-            elif (event.num == 4 or event.delta > 0) and self.zoom_percent < 400:  # Scroll up
-                self.zoom_percent += 10
+        if (event.num == 5 or event.delta < 0) and self.zoom_percent > 50:  # Scroll down
+            self.zoom_percent -= 10
+        elif (event.num == 4 or event.delta > 0) and self.zoom_percent < 400:  # Scroll up
+            self.zoom_percent += 10
+
+        self.update_screen()
 
     def scale_coordinates(self, cel_obj):
         """
@@ -352,6 +366,8 @@ class Window:
             self.ocean.extend(create_water(self.celestial_bodies[0]))
             for molecule in self.ocean:
                 molecule.create_image(self.space)
+
+            self.update_screen()
         else:
             for molecule in self.ocean:
                 self.space.delete(molecule.image)
