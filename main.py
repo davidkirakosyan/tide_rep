@@ -10,6 +10,7 @@ class Window:
         self.width = width
         self.height = height
         self.zoom_percent = zoom_percent
+        self.x0, self.y0 = [0] * 2
         self.is_running = False
         self.scale_factor = 1.0
 
@@ -151,46 +152,6 @@ class Window:
 
         self.run()
 
-    def drag_start(self, event):
-        """
-        Grabs an object via clicking on it by mouse
-        """
-        for body in self.celestial_bodies:
-            x, y, R = self.scale_coordinates(body)
-            dist_event_obj = ((event.x - x) ** 2 + (event.y - y) ** 2) ** 0.5
-            if dist_event_obj <= R:
-                body.drag_readiness = True
-
-    def drag_finish(self, event):
-        """
-        Releases an object after dragging it by mouse
-        """
-        for body in self.celestial_bodies:
-            if body.drag_readiness:
-                body.drag_readiness = False
-                x = (event.x - self.space.winfo_width() / 2) * 100 / (
-                        self.scale_factor * self.zoom_percent)  # coords rescaling
-                y = (event.y - self.space.winfo_height() / 2) * 100 / (self.scale_factor * self.zoom_percent)
-                body.x = x
-                body.y = y
-                x, y, R = self.scale_coordinates(body)
-                self.space.coords(body.image, x - R, y - R, x + R, y + R)
-
-    def drag(self, event):
-        """
-        moves an object via to dragging it by mouse
-        :return: None
-        """
-        for body in self.celestial_bodies:
-            if body.drag_readiness:
-                x = (event.x - self.space.winfo_width() / 2) * 100 / (
-                        self.scale_factor * self.zoom_percent)  # coords rescaling
-                y = (event.y - self.space.winfo_height() / 2) * 100 / (self.scale_factor * self.zoom_percent)
-                body.x = x
-                body.y = y
-                x, y, R = self.scale_coordinates(body)
-                self.space.coords(body.image, x - R, y - R, x + R, y + R)
-
     def run(self):
         """
         Moves objects, changes coordinates.
@@ -211,6 +172,52 @@ class Window:
         self.start_button['text'] = 'Start'
         self.start_button['command'] = self._start_running
 
+    def drag_start(self, event):
+        """
+        Grabs an object via clicking on it by mouse
+        """
+        for body in self.celestial_bodies:
+            x, y, R = self.scale_coordinates(body)
+            dist_event_obj = ((event.x - x) ** 2 + (event.y - y) ** 2) ** 0.5
+            if dist_event_obj <= R:
+                body.drag_readiness = True
+
+        dragging_planet = any([body.drag_readiness for body in self.celestial_bodies])
+        if not dragging_planet:
+            self.start_x0 = event.x - self.x0
+            self.start_y0 = event.y - self.y0
+
+    def drag_finish(self, event):
+        """
+        Releases an object after dragging it by mouse
+        """
+        for body in self.celestial_bodies:
+            if body.drag_readiness:
+                body.drag_readiness = False
+
+    def drag(self, event):
+        """
+        moves an object via to dragging it by mouse
+        :return: None
+        """
+        for body in self.celestial_bodies:
+            if body.drag_readiness:
+                # coords rescaling
+                x = (event.x - self.space.winfo_width() / 2) * \
+                    100 / (self.scale_factor * self.zoom_percent)
+                y = (event.y - self.space.winfo_height() / 2) * \
+                    100 / (self.scale_factor * self.zoom_percent)
+                body.x = x
+                body.y = y
+                x, y, R = self.scale_coordinates(body)
+                self.space.coords(body.image, x - R, y - R, x + R, y + R)
+
+        dragging_planet = any([body.drag_readiness for body in self.celestial_bodies])
+        #  dragging background
+        if not dragging_planet:
+            self.x0 = event.x - self.start_x0
+            self.y0 = event.y - self.start_y0
+
     def zoom(self, event):
         if self.is_running:
             if (event.num == 5 or event.delta < 0) and self.zoom_percent > 50:  # Scroll down
@@ -225,8 +232,8 @@ class Window:
         :param cel_obj: celestial object
         :return: (new_x, new_y)
         """
-        new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_width() / 2
-        new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_height() / 2
+        new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_width() / 2 + self.x0
+        new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_height() / 2 + self.y0
         new_R = cel_obj.R * self.scale_factor * self.zoom_percent / 100
         return new_x, new_y, new_R
 
