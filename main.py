@@ -10,6 +10,7 @@ class Window:
         self.width = width
         self.height = height
         self.zoom_percent = zoom_percent
+        self.x0, self.y0 = [0] * 2
         self.is_running = False
         self.scale_factor = 1.0
 
@@ -52,7 +53,6 @@ class Window:
     def _set_controllers(self):
         """
         Create controllers for changing parameters. (planets' density, velocity, ...)
-
         :return:
         """
         self.start_button = tk.Button(self.frame, text="Start", command=self._start_running)
@@ -142,7 +142,6 @@ class Window:
     def _start_running(self):
         """
         Changing Start Button text and command, running program.
-
         :return:
         """
         self.is_running = True
@@ -150,6 +149,34 @@ class Window:
         self.start_button['command'] = self._stop_running
 
         self.run()
+
+    def run(self):
+        """
+        Moves objects, changes coordinates.
+        :return: None
+        """
+        if self.is_running:
+            self.change_position()
+            self.job = self.root.after(int(1000 / self.fps.get()), self.run)
+
+    def _stop_running(self):
+        """
+        Changing Start Button text and command, running program.
+        :return:
+        """
+        self.is_running = False
+        self.start_button['text'] = 'Start'
+        self.start_button['command'] = self._start_running
+
+    def update_screen(self):
+        """
+        Updates Canvas, when program is paused.
+        :return: None
+        """
+        if not self.is_running:
+            for body in self.celestial_bodies + self.ocean:
+                x, y, R = self.scale_coordinates(body)
+                self.space.coords(body.image, x - R, y - R, x + R, y + R)
 
     def drag_start(self, event):
         """
@@ -161,6 +188,11 @@ class Window:
             if dist_event_obj <= R:
                 body.drag_readiness = True
 
+        dragging_planet = any([body.drag_readiness for body in self.celestial_bodies])
+        if not dragging_planet:
+            self.start_x0 = event.x - self.x0
+            self.start_y0 = event.y - self.y0
+
     def drag_finish(self, event):
         """
         Releases an object after dragging it by mouse
@@ -168,13 +200,6 @@ class Window:
         for body in self.celestial_bodies:
             if body.drag_readiness:
                 body.drag_readiness = False
-                x = (event.x - self.space.winfo_width() / 2) * 100 / (
-                        self.scale_factor * self.zoom_percent)  # coords rescaling
-                y = (event.y - self.space.winfo_height() / 2) * 100 / (self.scale_factor * self.zoom_percent)
-                body.x = x
-                body.y = y
-                x, y, R = self.scale_coordinates(body)
-                self.space.coords(body.image, x - R, y - R, x + R, y + R)
 
     def drag(self, event):
         """
@@ -183,57 +208,46 @@ class Window:
         """
         for body in self.celestial_bodies:
             if body.drag_readiness:
-                x = (event.x - self.space.winfo_width() / 2) * 100 / (
-                        self.scale_factor * self.zoom_percent)  # coords rescaling
-                y = (event.y - self.space.winfo_height() / 2) * 100 / (self.scale_factor * self.zoom_percent)
+                # coords rescaling
+                x = (event.x - self.space.winfo_width() / 2 - self.x0) * \
+                    100 / (self.scale_factor * self.zoom_percent)
+                y = (event.y - self.space.winfo_height() / 2 - self.y0) * \
+                    100 / (self.scale_factor * self.zoom_percent)
                 body.x = x
                 body.y = y
                 x, y, R = self.scale_coordinates(body)
                 self.space.coords(body.image, x - R, y - R, x + R, y + R)
 
-    def run(self):
-        """
-        Moves objects, changes coordinates.
+        dragging_planet = any([body.drag_readiness for body in self.celestial_bodies])
+        #  dragging background
+        if not dragging_planet:
+            self.x0 = event.x - self.start_x0
+            self.y0 = event.y - self.start_y0
 
-        :return: None
-        """
-        if self.is_running:
-            self.change_position()
-            self.job = self.root.after(int(1000 / self.fps.get()), self.run)
-
-    def _stop_running(self):
-        """
-        Changing Start Button text and command, running program.
-
-        :return:
-        """
-        self.is_running = False
-        self.start_button['text'] = 'Start'
-        self.start_button['command'] = self._start_running
+        self.update_screen()
 
     def zoom(self, event):
-        if self.is_running:
-            if (event.num == 5 or event.delta < 0) and self.zoom_percent > 50:  # Scroll down
-                self.zoom_percent -= 10
-            elif (event.num == 4 or event.delta > 0) and self.zoom_percent < 400:  # Scroll up
-                self.zoom_percent += 10
+        if (event.num == 5 or event.delta < 0) and self.zoom_percent > 50:  # Scroll down
+            self.zoom_percent -= 10
+        elif (event.num == 4 or event.delta > 0) and self.zoom_percent < 400:  # Scroll up
+            self.zoom_percent += 10
+
+        self.update_screen()
 
     def scale_coordinates(self, cel_obj):
         """
         Scales cel_obj's x, y, when user zooms in or out.
-
         :param cel_obj: celestial object
         :return: (new_x, new_y)
         """
-        new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_width() / 2
-        new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_height() / 2
+        new_x = cel_obj.x * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_width() / 2 + self.x0
+        new_y = cel_obj.y * self.scale_factor * self.zoom_percent / 100 + self.space.winfo_height() / 2 + self.y0
         new_R = cel_obj.R * self.scale_factor * self.zoom_percent / 100
         return new_x, new_y, new_R
 
     def change_position(self):
         """
         Move objects x, y.
-
         :return: None
         """
         dt = 800
@@ -247,7 +261,6 @@ class Window:
     def resize(self, event):
         """
         Resizes all elements when window size is changed.
-
         :return:
         """
         init_width, init_height = self.width, self.height
@@ -264,7 +277,6 @@ class Window:
     def upload_data(self):
         """
         Reads planets' data. Creates planets and water molecules.
-
         :return:None
         """
         self._stop_running()
@@ -301,7 +313,6 @@ class Window:
         """
         Saves planets' data after simulation.
         <type> <R> <color> <mass> <x> <y> <Vx> <Vy>
-
         :return: None
         """
         self._stop_running()
@@ -312,7 +323,6 @@ class Window:
     def change_mass(self, value, i):
         """
         Changes body's mass when slider is moved.
-
         :param value: slider's current value
         :param i: index of body
         :return: None
@@ -323,7 +333,6 @@ class Window:
     def change_velocity(self, value, i):
         """
         Changes body's full velocity when slider is moved.
-
         :param value: slider's current value
         :param i: index of body
         :return: None
@@ -338,13 +347,14 @@ class Window:
     def show_ocean(self):
         """
         If Check box is checked fills self.ocean list.
-
         :return: None
         """
         if self.showing_ocean.get():
             self.ocean.extend(create_water(self.celestial_bodies[0]))
             for molecule in self.ocean:
                 molecule.create_image(self.space)
+
+            self.update_screen()
         else:
             for molecule in self.ocean:
                 self.space.delete(molecule.image)
@@ -353,7 +363,6 @@ class Window:
     def change_sliders_value(self):
         """
         Changes velocity slider values when celestial bodies are moving.
-
         :return: None
         """
         for i, body in enumerate(self.celestial_bodies):
