@@ -142,6 +142,7 @@ class Window:
     def _start_running(self):
         """
         Changing Start Button text and command, running program.
+
         :return:
         """
         self.is_running = True
@@ -153,10 +154,7 @@ class Window:
     def run(self):
         """
         Moves objects, changes coordinates.
-<<<<<<< HEAD
-=======
 
->>>>>>> 0d8e3aba32f6cc88979e50965fc4539cef37b7e0
         :return: None
         """
         if self.is_running:
@@ -166,10 +164,7 @@ class Window:
     def _stop_running(self):
         """
         Changing Start Button text and command, running program.
-<<<<<<< HEAD
-=======
 
->>>>>>> 0d8e3aba32f6cc88979e50965fc4539cef37b7e0
         :return:
         """
         self.is_running = False
@@ -179,10 +174,7 @@ class Window:
     def update_screen(self):
         """
         Updates Canvas, when program is paused.
-<<<<<<< HEAD
-=======
 
->>>>>>> 0d8e3aba32f6cc88979e50965fc4539cef37b7e0
         :return: None
         """
         if not self.is_running:
