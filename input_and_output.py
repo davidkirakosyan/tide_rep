@@ -10,7 +10,12 @@ def read_space_objects_data_from_file(input_filename):
 
     objects = []
     with open(input_filename) as input_file:
-        for line in input_file:
+        lines = input_file.readlines()
+
+        if len(lines) == 0:
+            raise ImportError("Empty file is uploaded.")
+
+        for line in lines:
             if len(line.strip()) == 0 or line[0] == '#':
                 continue  # пустые строки и строки-комментарии пропускаем
             obj = PhysicalBall()
@@ -31,11 +36,22 @@ def parse_space_object_parameters(line, obj):
     x = line.split()  # skipping first element
     res = []
 
-    for word in x:
+    if len(x) < 8:
+        raise ImportError("Wrong file is uploaded. Please check data syntax.")
+
+    for i, word in enumerate(x):
         if word.isalpha():
             value = word.lower()
         else:
             value = float(word)
+
+        if i in [0, 2]:
+            if not value.isalpha():
+                raise ImportError("Wrong file is uploaded. Please check data syntax.")
+        else:
+            if not isinstance(value, float):
+                raise ImportError("Wrong file is uploaded. Please check data syntax.")
+
         res.append(value)
 
     obj.type, obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy = res

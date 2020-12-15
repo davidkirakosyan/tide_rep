@@ -89,9 +89,9 @@ class Window:
                 command=lambda value: self.change_mass(value, 1),
             )
         ]
-        for label, slider in zip(self.mass_sliders, mass_labels):
-            label.pack(pady=6)
-            slider.pack()
+        for label, slider in zip(mass_labels, self.mass_sliders):
+            slider.pack(pady=6)
+            label.pack()
 
         vel_labels = [
             tk.Label(self.frame, text='Earth Velocity in m/s', wraplength=(self.width / 5)),
@@ -118,9 +118,9 @@ class Window:
             )
         ]
 
-        for label, slider in zip(self.velocity_sliders, vel_labels):
-            label.pack(pady=6)
-            slider.pack()
+        for label, slider in zip(vel_labels, self.velocity_sliders):
+            slider.pack(pady=6)
+            label.pack()
 
         fps_label = tk.Label(self.frame, text="FPS", wraplength=(self.width / 5))
         fps_label.pack(pady=6)
@@ -284,17 +284,21 @@ class Window:
     def upload_data(self):
         """
         Reads planets' data. Creates planets and water molecules.
+
         :return:None
         """
         self._stop_running()
         self.celestial_bodies.clear()
         self.ocean.clear()
+        self.zoom_percent = 100
+        self.x0 = 0
+        self.y0 = 0
         self.space.delete("all")
 
         try:
             file_name = askopenfile(filetypes=(("Text file", ".txt"),)).name
         except AttributeError:
-            raise ValueError("Please upload a file")
+            raise ImportError("Please upload a file")
 
         self.celestial_bodies.extend(read_space_objects_data_from_file(file_name))
         self.celestial_bodies.sort(key=lambda obj: obj.m, reverse=True)
@@ -320,6 +324,7 @@ class Window:
         """
         Saves planets' data after simulation.
         <type> <R> <color> <mass> <x> <y> <Vx> <Vy>
+
         :return: None
         """
         self._stop_running()
@@ -330,6 +335,7 @@ class Window:
     def change_mass(self, value, i):
         """
         Changes body's mass when slider is moved.
+
         :param value: slider's current value
         :param i: index of body
         :return: None
@@ -340,6 +346,7 @@ class Window:
     def change_velocity(self, value, i):
         """
         Changes body's full velocity when slider is moved.
+
         :param value: slider's current value
         :param i: index of body
         :return: None
@@ -354,6 +361,7 @@ class Window:
     def show_ocean(self):
         """
         If Check box is checked fills self.ocean list.
+
         :return: None
         """
         if self.showing_ocean.get():
@@ -370,6 +378,7 @@ class Window:
     def change_sliders_value(self):
         """
         Changes velocity slider values when celestial bodies are moving.
+
         :return: None
         """
         for i, body in enumerate(self.celestial_bodies):
