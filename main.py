@@ -260,6 +260,10 @@ class Window:
         dt = 800
         all_objects = self.celestial_bodies + self.ocean
         for body in all_objects:
+            calculate_force(body, all_objects)
+            collisions(body, all_objects)
+        # changing positions after calculation of all forces.
+        for body in all_objects:
             body.move(all_objects, dt)
             self.change_sliders_value()
             x, y, R = self.scale_coordinates(body)

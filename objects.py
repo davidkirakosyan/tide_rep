@@ -30,7 +30,6 @@ class PhysicalBall:
         :param dt: moving time interval
         :return: None
         """
-        calculate_force(self, objects)
 
         ax = self.Fx / self.m
         self.x += self.Vx * dt + ax * dt ** 2 / 2
@@ -39,8 +38,6 @@ class PhysicalBall:
         ay = self.Fy / self.m
         self.y += self.Vy * dt + ay * dt ** 2 / 2
         self.Vy += ay * dt
-
-        collisions(self, objects)
 
     def create_image(self, canv):
         """
@@ -73,6 +70,7 @@ def create_water(planet, N=80, density=25):
         molecules += [obj]
 
     return molecules
+
 
 if __name__ == "__main__":
     print("This module is not for direct call!")

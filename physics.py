@@ -71,18 +71,24 @@ def collisions(body, objects):
         x, y = obj.x, obj.y
 
         l = np.array([x - X, y - Y])
-        if obj.type != 'earth':
+        if obj.type == 'water':
             l_normalized = l / np.linalg.norm(l)
             x, y = np.array([X, Y]) + l_normalized * (body.R + obj.R)
             obj.x, obj.y = x, y
 
-        Vc = (M * V + m * v) / (M + m)  # velocity of center of mass
-        P1 = m * M / (M + m) * (
-                V - v)  # momentum of the body in the frame of reference of the center of mass before collision
-        delta_P = -2 * np.dot(P1, l) * l / np.sum(l ** 2)
+        # velocity of center of mass
+        Vc = (M * V + m * v) / (M + m)
+        # momentum of the body in the frame of reference of the center of mass before collision
+        P1 = m * M / (M + m) * (V - v)
+        P1_par = np.dot(P1, l) * l / np.sum(l ** 2)
+
+        if body.type == 'water':
+            delta_P = -1 * P1_par
+        else:
+            delta_P = -2 * P1_par
+
         P2 = P1 + delta_P  # after collision
-        if body.type == 'earth':
-            recovery_factor = 0
+
         if body.type == 'water':
             recovery_factor = 0
         else:
