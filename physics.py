@@ -24,8 +24,6 @@ def calculate_force(body, objects):
             force_factor = 0.01
         elif obj.type == 'water':
             force_factor = 0.001
-        elif obj.type == 'moon' and body.type == 'water':
-            force_factor = 15
         else:
             force_factor = 1
             
@@ -93,3 +91,4 @@ def collisions(body, objects):
 
 if __name__ == "__main__":
     print("This module is not for direct call!")
+
