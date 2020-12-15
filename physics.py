@@ -17,9 +17,8 @@ def calculate_force(body, objects):
         if body == obj:
             continue  # doesn't affect on itself
         r = ((body.x - obj.x) ** 2 + (body.y - obj.y) ** 2) ** 0.5
-        if body.type == 'earth':
-            force_factor = 0.001
-        elif obj.type == 'earth':
+
+        if obj.type == 'earth':
             force_factor = 0.01
         elif obj.type == 'moon':
             force_factor = 0.01
@@ -29,6 +28,7 @@ def calculate_force(body, objects):
             force_factor = 15
         else:
             force_factor = 1
+            
         body.Fx += gravitational_constant * body.m * obj.m * (obj.x - body.x) / (r ** 3) * force_factor
         body.Fy += gravitational_constant * body.m * obj.m * (obj.y - body.y) / (r ** 3) * force_factor
 
@@ -71,24 +71,18 @@ def collisions(body, objects):
         x, y = obj.x, obj.y
 
         l = np.array([x - X, y - Y])
-        if obj.type == 'water':
+        if obj.type != 'earth':
             l_normalized = l / np.linalg.norm(l)
             x, y = np.array([X, Y]) + l_normalized * (body.R + obj.R)
             obj.x, obj.y = x, y
 
-        # velocity of center of mass
-        Vc = (M * V + m * v) / (M + m)
-        # momentum of the body in the frame of reference of the center of mass before collision
-        P1 = m * M / (M + m) * (V - v)
-        P1_par = np.dot(P1, l) * l / np.sum(l ** 2)
-
-        if body.type == 'water':
-            delta_P = -1 * P1_par
-        else:
-            delta_P = -2 * P1_par
-
+        Vc = (M * V + m * v) / (M + m)  # velocity of center of mass
+        P1 = m * M / (M + m) * (
+                V - v)  # momentum of the body in the frame of reference of the center of mass before collision
+        delta_P = -2 * np.dot(P1, l) * l / np.sum(l ** 2)
         P2 = P1 + delta_P  # after collision
-
+        if body.type == 'earth':
+            recovery_factor = 0
         if body.type == 'water':
             recovery_factor = 0
         else:
