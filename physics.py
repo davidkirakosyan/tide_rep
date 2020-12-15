@@ -17,8 +17,20 @@ def calculate_force(body, objects):
         if body == obj:
             continue  # doesn't affect on itself
         r = ((body.x - obj.x) ** 2 + (body.y - obj.y) ** 2) ** 0.5
-        body.Fx += gravitational_constant * body.m * obj.m * (obj.x - body.x) / (r ** 3)
-        body.Fy += gravitational_constant * body.m * obj.m * (obj.y - body.y) / (r ** 3)
+        if body.type == 'earth':
+            force_factor = 0.001
+        elif obj.type == 'earth':
+            force_factor = 0.01
+        elif obj.type == 'moon':
+            force_factor = 0.01
+        elif obj.type == 'water':
+            force_factor = 0.001
+        elif obj.type == 'moon' and body.type == 'water':
+            force_factor = 15
+        else:
+            force_factor = 1
+        body.Fx += gravitational_constant * body.m * obj.m * (obj.x - body.x) / (r ** 3) * force_factor
+        body.Fy += gravitational_constant * body.m * obj.m * (obj.y - body.y) / (r ** 3) * force_factor
 
 
 def colliders(body, objects):
@@ -59,17 +71,20 @@ def collisions(body, objects):
         x, y = obj.x, obj.y
 
         l = np.array([x - X, y - Y])
-        l_normalized = l / np.linalg.norm(l)
-        x, y = np.array([X, Y]) + l_normalized * (body.R + obj.R)
-        obj.x, obj.y = x, y
+        if obj.type != 'earth':
+            l_normalized = l / np.linalg.norm(l)
+            x, y = np.array([X, Y]) + l_normalized * (body.R + obj.R)
+            obj.x, obj.y = x, y
 
         Vc = (M * V + m * v) / (M + m)  # velocity of center of mass
         P1 = m * M / (M + m) * (
                 V - v)  # momentum of the body in the frame of reference of the center of mass before collision
         delta_P = -2 * np.dot(P1, l) * l / np.sum(l ** 2)
         P2 = P1 + delta_P  # after collision
+        if body.type == 'earth':
+            recovery_factor = 0
         if body.type == 'water':
-            recovery_factor = 0.2
+            recovery_factor = 0
         else:
             recovery_factor = 1
         V_new = P2 / M + Vc * recovery_factor

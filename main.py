@@ -301,7 +301,7 @@ class Window:
 
         for i, body in enumerate(self.celestial_bodies):
             body.create_image(self.space)
-            self.mass_sliders[i].set(body.m / 1E22)
+            self.mass_sliders[i].set(body.m / 1E24)
 
         self.change_sliders_value()  # adjusting velocity sliders
 
@@ -335,7 +335,7 @@ class Window:
         :return: None
         """
         if len(self.celestial_bodies) > 0:
-            self.celestial_bodies[i].m = float(value) * 1E22
+            self.celestial_bodies[i].m = float(value) * 1E24
 
     def change_velocity(self, value, i):
         """

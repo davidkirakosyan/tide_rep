@@ -53,7 +53,7 @@ class PhysicalBall:
         self.image = canv.create_oval([0, 0], [2 * R, 2 * R], fill=self.color, outline='')
 
 
-def create_water(planet, N=50, density=25):
+def create_water(planet, N=80, density=25):
     """
     Creates N water balls around planet.
 
@@ -61,7 +61,7 @@ def create_water(planet, N=50, density=25):
     :return: new list of objects
     """
     molecules = []
-    r = math.pi * planet.R / N  # radius of molecule
+    r = 0.7 * math.pi * planet.R / N  # radius of molecule
     for i in range(N):
         obj = PhysicalBall()
         obj.R = r
