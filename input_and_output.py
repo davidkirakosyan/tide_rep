@@ -66,10 +66,25 @@ def write_space_objects_data_to_file(output_filename, objects):
     :param objects: list with planets
     :return: None
     """
+
+    for obj in objects:
+        if obj.type == 'moon':
+            Moon = PhysicalBall()
+            Moon.type, Moon.R, Moon.color, Moon.m, Moon.x, Moon.y, Moon.Vx, Moon.Vy = obj.type, obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy
+        if obj.type == 'earth':
+            Earth = PhysicalBall()
+            Earth.type, Earth.R, Earth.color, Earth.m, Earth.x, Earth.y, Earth.Vx, Earth.Vy = obj.type, obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy
+    orbit_parameters_Earth = Earth.calculate_orbit_parameters (Moon)
+    orbit_parameters_Moon = Moon.calculate_orbit_parameters (Earth)
+            
     with open(output_filename, 'w') as out_file:
         for obj in objects:
             object_data_string = ''
-            features = [obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy]
+            features = [obj.type, obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy]
+            if obj.type == 'moon':
+                features += orbit_parameters_Moon
+            if obj.type == 'earth':
+                features += orbit_parameters_Earth
             for feature in features:
                 object_data_string += str(feature) + ' '
 
