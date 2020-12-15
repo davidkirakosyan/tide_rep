@@ -203,9 +203,9 @@ class Window:
         for body in self.celestial_bodies:
             if body.drag_readiness:
                 # coords rescaling
-                x = (event.x - self.space.winfo_width() / 2) * \
+                x = (event.x - self.space.winfo_width() / 2 - self.x0) * \
                     100 / (self.scale_factor * self.zoom_percent)
-                y = (event.y - self.space.winfo_height() / 2) * \
+                y = (event.y - self.space.winfo_height() / 2 - self.y0) * \
                     100 / (self.scale_factor * self.zoom_percent)
                 body.x = x
                 body.y = y
