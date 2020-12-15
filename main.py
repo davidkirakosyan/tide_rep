@@ -192,6 +192,7 @@ class Window:
             dist_event_obj = ((event.x - x) ** 2 + (event.y - y) ** 2) ** 0.5
             if dist_event_obj <= R:
                 body.drag_readiness = True
+                break  # grab only one object
 
         dragging_planet = any([body.drag_readiness for body in self.celestial_bodies])
         if not dragging_planet:
