@@ -142,7 +142,7 @@ class Window:
     def _start_running(self):
         """
         Changing Start Button text and command, running program.
-        :return:
+        :return: None
         """
         self.is_running = True
         self.start_button['text'] = 'Pause'
@@ -153,10 +153,6 @@ class Window:
     def run(self):
         """
         Moves objects, changes coordinates.
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d8e3aba32f6cc88979e50965fc4539cef37b7e0
         :return: None
         """
         if self.is_running:
@@ -166,11 +162,7 @@ class Window:
     def _stop_running(self):
         """
         Changing Start Button text and command, running program.
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d8e3aba32f6cc88979e50965fc4539cef37b7e0
-        :return:
+        :return: None
         """
         self.is_running = False
         self.start_button['text'] = 'Start'
@@ -179,10 +171,6 @@ class Window:
     def update_screen(self):
         """
         Updates Canvas, when program is paused.
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d8e3aba32f6cc88979e50965fc4539cef37b7e0
         :return: None
         """
         if not self.is_running:
@@ -199,12 +187,11 @@ class Window:
             dist_event_obj = ((event.x - x) ** 2 + (event.y - y) ** 2) ** 0.5
             if dist_event_obj <= R:
                 body.drag_readiness = True
+                if body.type == 'earth': 
+                    for molecule in self.ocean:
+                        self.space.delete(molecule.image)
+                    self.ocean.clear()
                 break  # grab only one object
-
-        dragging_planet = any([body.drag_readiness for body in self.celestial_bodies])
-        if not dragging_planet:
-            self.start_x0 = event.x - self.x0
-            self.start_y0 = event.y - self.y0
 
         dragging_planet = any([body.drag_readiness for body in self.celestial_bodies])
         if not dragging_planet:
@@ -217,6 +204,8 @@ class Window:
         """
         for body in self.celestial_bodies:
             if body.drag_readiness:
+                if body.type == 'earth':
+                    self.show_ocean()
                 body.drag_readiness = False
 
     def drag(self, event):

@@ -68,7 +68,11 @@ def collisions(body, objects):
                 V - v)  # momentum of the body in the frame of reference of the center of mass before collision
         delta_P = -2 * np.dot(P1, l) * l / np.sum(l ** 2)
         P2 = P1 + delta_P  # after collision
-        V_new = P2 / M + Vc
+        if body.type == 'water':
+            recovery_factor = 0.2
+        else:
+            recovery_factor = 1
+        V_new = P2 / M + Vc * recovery_factor
 
     body.Vx, body.Vy = V_new
 
