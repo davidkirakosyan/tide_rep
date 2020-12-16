@@ -27,7 +27,6 @@ class PhysicalBall:
     def move(self, objects, dt):
         """
         Recalculates parameters of the body.
-
         :param objects: list of all physical objects.
         :param dt: moving time interval
         :return: None
@@ -44,7 +43,6 @@ class PhysicalBall:
     def create_image(self, canv):
         """
         Creates image for PhysicalBall objects
-
         :param canv: Tk Canvas object
         :return: None
         """
@@ -55,7 +53,6 @@ class PhysicalBall:
         """
         calculates orbit parametrs of an object in double system
         VcmX, VcmY - correspondent components of velocity of system's center of mass
-
         returns: list of parametrs
         """
         orbit_parametrs = []
@@ -97,7 +94,6 @@ class PhysicalBall:
 def create_water(planet, N=80, density=25):
     """
     Creates N water balls around planet.
-
     :param N: number of molecules
     :return: new list of objects
     """
