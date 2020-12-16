@@ -297,6 +297,7 @@ class Window:
         self.zoom_percent = 100
         self.x0 = 0
         self.y0 = 0
+        self.showing_ocean.set(False)
         self.space.delete("all")
 
         try:
