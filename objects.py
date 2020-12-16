@@ -68,12 +68,12 @@ class PhysicalBall:
         dist_cm = ((x_cm - self.x) ** 2 + (y_cm - self.y)) ** 0.5
         energy = (V_relative ** 2) / 2 - gravitational_constant * obj.m / dist_cm
         if energy > 0:
-            orbit_parametrs += "orpit type = hyperbola, "
+            orbit_parametrs += "orbit type = hyperbola, "
         if energy == 0:
-            orbit_parametrs += "orpit type = parabola, "
+            orbit_parametrs += "orbit type = parabola, "
             orbit_parametrs += "eccentricity = 0"
         if energy < 0:
-            orbit_parametrs += "orpit type = ellipse, "
+            orbit_parametrs += "orbit type = ellipse, "
 
         if energy != 0:    
             a = - gravitational_constant * obj.m / (2 * energy)
