@@ -26,7 +26,7 @@ def calculate_force(body, objects):
             force_factor = 0.001
         else:
             force_factor = 1
-            
+
         body.Fx += gravitational_constant * body.m * obj.m * (obj.x - body.x) / (r ** 3) * force_factor
         body.Fy += gravitational_constant * body.m * obj.m * (obj.y - body.y) / (r ** 3) * force_factor
 
@@ -74,13 +74,13 @@ def collisions(body, objects):
             x, y = np.array([X, Y]) + l_normalized * (body.R + obj.R)
             obj.x, obj.y = x, y
 
-        Vc = (M * V + m * v) / (M + m)  # velocity of center of mass
-        P1 = m * M / (M + m) * (
-                V - v)  # momentum of the body in the frame of reference of the center of mass before collision
+        # velocity of center of mass
+        Vc = (M * V + m * v) / (M + m)
+        # momentum of the body in the frame of reference of the center of mass before collision
+        P1 = m * M / (M + m) * (V - v)
         delta_P = -2 * np.dot(P1, l) * l / np.sum(l ** 2)
         P2 = P1 + delta_P  # after collision
-        if body.type == 'earth':
-            recovery_factor = 0
+
         if body.type == 'water':
             recovery_factor = 0
         else:
@@ -89,6 +89,6 @@ def collisions(body, objects):
 
     body.Vx, body.Vy = V_new
 
+
 if __name__ == "__main__":
     print("This module is not for direct call!")
-

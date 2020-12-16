@@ -68,15 +68,27 @@ def write_space_objects_data_to_file(output_filename, objects):
     """
 
     for obj in objects:
+        attrs = [
+            'type',
+            'R',
+            'color',
+            'm',
+            'x',
+            'y',
+            'Vx',
+            'Vy',
+        ]
         if obj.type == 'moon':
             Moon = PhysicalBall()
-            Moon.type, Moon.R, Moon.color, Moon.m, Moon.x, Moon.y, Moon.Vx, Moon.Vy = obj.type, obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy
+            for att in attrs:
+                setattr(Moon, att, getattr(obj, att))
         if obj.type == 'earth':
             Earth = PhysicalBall()
-            Earth.type, Earth.R, Earth.color, Earth.m, Earth.x, Earth.y, Earth.Vx, Earth.Vy = obj.type, obj.R, obj.color, obj.m, obj.x, obj.y, obj.Vx, obj.Vy
-    orbit_parameters_Earth = Earth.calculate_orbit_parameters (Moon)
-    orbit_parameters_Moon = Moon.calculate_orbit_parameters (Earth)
-            
+            for att in attrs:
+                setattr(Earth, att, getattr(obj, att))
+    orbit_parameters_Earth = Earth.calculate_orbit_parameters(Moon)
+    orbit_parameters_Moon = Moon.calculate_orbit_parameters(Earth)
+
     with open(output_filename, 'w') as out_file:
         for obj in objects:
             object_data_string = ''

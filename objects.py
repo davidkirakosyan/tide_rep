@@ -4,6 +4,7 @@ from physics import *
 
 gravitational_constant = 6.67408E-11
 
+
 class PhysicalBall:
     """
     Class that describes solid ball
@@ -50,7 +51,7 @@ class PhysicalBall:
         R = self.R
         self.image = canv.create_oval([0, 0], [2 * R, 2 * R], fill=self.color, outline='')
 
-    def calculate_orbit_parameters (self, obj):
+    def calculate_orbit_parameters(self, obj):
         """
         calculates orbit parametrs of an object in double system
         VcmX, VcmY - correspondent components of velocity of system's center of mass
@@ -75,22 +76,23 @@ class PhysicalBall:
         if energy < 0:
             orbit_parametrs += "orbit type = ellipse, "
 
-        if energy != 0:    
+        if energy != 0:
             a = - gravitational_constant * obj.m / (2 * energy)
             orbit_parametrs += "big semiaxis = " + str(a) + ", "
 
-            angle_velocity_radius_vector = abs (math.atan (self.Vy / self.Vx) - math.atan ((y_cm - self.y) / (x_cm - self.x)))
+            angle_velocity_radius_vector = abs(
+                math.atan(self.Vy / self.Vx) - math.atan((y_cm - self.y) / (x_cm - self.x)))
 
             L = V_relative * dist_cm * math.sin(angle_velocity_radius_vector)
 
             b = L * (a / (gravitational_constant * obj.m)) ** 0.5
             orbit_parametrs += "small semiaxis = " + str(b)
 
-            e = (1 + 2 * energy * (L / (gravitational_constant * obj.m))**2)
+            e = (1 + 2 * energy * (L / (gravitational_constant * obj.m)) ** 2)
             orbit_parametrs += "eccentricity = " + str(e)
 
         return orbit_parametrs
-        
+
 
 def create_water(planet, N=80, density=25):
     """
